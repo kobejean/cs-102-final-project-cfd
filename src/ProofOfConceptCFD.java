@@ -3,8 +3,16 @@ import java.lang.Math;
 import java.awt.event.KeyEvent;
 
 public class ProofOfConceptCFD {
-    public static int xdim = 600;
-    public static int ydim = 240;
+    // public static int xdim = 2400;
+    // public static int ydim = 960;
+    // public static int xdim = 1200;
+    // public static int ydim = 480;
+    // public static int xdim = 600;
+    // public static int ydim = 240;
+    // public static int xdim = 400;
+    // public static int ydim = 160;
+    public static int xdim = 200;
+    public static int ydim = 80;
     public static double[][] H  = new double[xdim][ydim];
     public static double[][] B  = new double[xdim][ydim];
     public static Mode mode = Mode.ALL;
@@ -12,8 +20,8 @@ public class ProofOfConceptCFD {
     public static void main(String[] args) {
         // ProofOfConceptCFD poc = new ProofOfConceptCFD();
         reset();
-        int ppc = 2; // pixels per coordinate
-        int width = xdim * ppc, height = ydim * ppc;
+        int width = 1200, height = 480;
+        // int width = 300, height = 120;
         StdDraw.setCanvasSize(width, height);  //default is 1200 x 480
 
         //Set the drawing scale to dimentions

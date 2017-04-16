@@ -3,10 +3,12 @@ import java.lang.Math;
 import java.awt.event.KeyEvent;
 
 public class CFD implements Runnable {
+    int xdim = 2400;
+    int ydim = 960;
     // int xdim = 1200;
     // int ydim = 480;
-    int xdim = 600;
-    int ydim = 240;
+    // int xdim = 600;
+    // int ydim = 240;
     // int xdim = 400;
     // int ydim = 160;
     // int xdim = 200;
@@ -52,9 +54,9 @@ public class CFD implements Runnable {
     CFD() {
         reset();
 
-        int ppc = 2; // pixels per coordinate
         // int width = xdim * ppc, height = ydim * ppc;
         int width = 1200, height = 480;
+        // int width = 300, height = 120;
         StdDraw.setCanvasSize(width, height);  //default is 1200 x 480
 
         //Set the drawing scale to dimentions

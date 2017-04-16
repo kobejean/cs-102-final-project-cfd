@@ -1,3 +1,4 @@
 src/StdDraw.java
+src/RetinaIcon.java
 src/ProofOfConceptCFD.java
 src/CFD.java

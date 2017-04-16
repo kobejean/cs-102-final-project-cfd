@@ -26,6 +26,8 @@ import java.awt.Image;
 import java.awt.MediaTracker;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -40,6 +42,7 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.AffineTransform;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.DirectColorModel;
@@ -64,10 +67,12 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
+import java.lang.reflect.Field;
+
 /**
  *  The {@code StdDraw} class provides a basic capability for
  *  creating drawings with your programs. It uses a simple graphics model that
- *  allows you to create drawings consisting of points, lines, squares, 
+ *  allows you to create drawings consisting of points, lines, squares,
  *  circles, and other geometric shapes in a window on your computer and
  *  to save the drawings to a file. Standard drawing also includes
  *  facilities for text, color, pictures, and animation, along with
@@ -95,7 +100,7 @@ import javax.swing.KeyStroke;
  *  If you compile and execute the program, you should see a window
  *  appear with a thick magenta line and a blue point.
  *  This program illustrates the two main types of methods in standard
- *  drawing—methods that draw geometric shapes and methods that
+ *  drawingï¿½methods that draw geometric shapes and methods that
  *  control drawing parameters.
  *  The methods {@code StdDraw.line()} and {@code StdDraw.point()}
  *  draw lines and points; the methods {@code StdDraw.setPenRadius()}
@@ -232,7 +237,7 @@ import javax.swing.KeyStroke;
  *  <li> {@link #setScale(double min, double max)}
  *  </ul>
  *  <p>
- *  The arguments are the coordinates of the minimum and maximum 
+ *  The arguments are the coordinates of the minimum and maximum
  *  <em>x</em>- or <em>y</em>-coordinates that will appear in the canvas.
  *  For example, if you  wish to use the default coordinate system but
  *  leave a small margin, you can call {@code StdDraw.setScale(-.05, 1.05)}.
@@ -296,7 +301,7 @@ import javax.swing.KeyStroke;
  *  <p>
  *  The supported image formats are JPEG and PNG. The filename must have either the
  *  extension .jpg or .png.
- *  We recommend using PNG for drawing that consist solely of geometric shapes and JPEG 
+ *  We recommend using PNG for drawing that consist solely of geometric shapes and JPEG
  *  for drawings that contains pictures.
  *  <p>
  *  <b>Clearing the canvas.</b>
@@ -324,14 +329,14 @@ import javax.swing.KeyStroke;
  *  <p>
  *  By default, double buffering is disabled, which means that as soon as you
  *  call a drawing
- *  method—such as {@code point()} or {@code line()}—the
+ *  methodï¿½such as {@code point()} or {@code line()}ï¿½the
  *  results appear on the screen.
  *  <p>
  *  When double buffering is enabled by calling {@link #enableDoubleBuffering()},
  *  all drawing takes place on the <em>offscreen canvas</em>. The offscreen canvas
  *  is not displayed. Only when you call
  *  {@link #show()} does your drawing get copied from the offscreen canvas to
- *  the onscreen canvas, where it is displayed in the standard drawing window. You 
+ *  the onscreen canvas, where it is displayed in the standard drawing window. You
  *  can think of double buffering as collecting all of the lines, points, shapes,
  *  and text that you tell it to draw, and then drawing them all
  *  <em>simultaneously</em>, upon request.
@@ -414,7 +419,7 @@ import javax.swing.KeyStroke;
  *  <li> Any method that is passed a {@code null} argument will throw an
  *       {@link IllegalArgumentException}.
  *  <li> Except as noted in the APIs, drawing an object outside (or partly outside)
- *       the canvas is permitted—however, only the part of the object that
+ *       the canvas is permittedï¿½however, only the part of the object that
  *       appears inside the canvas will be visible.
  *  <li> Except as noted in the APIs, all methods accept {@link Double#NaN},
  *       {@link Double#POSITIVE_INFINITY}, and {@link Double#NEGATIVE_INFINITY}
@@ -555,6 +560,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
     private static final int DEFAULT_SIZE = 512;
     private static int width  = DEFAULT_SIZE;
     private static int height = DEFAULT_SIZE;
+    private static double retinaScale = 1.0;
 
     // default pen radius
     private static final double DEFAULT_PEN_RADIUS = 0.002;
@@ -607,7 +613,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 
     // time in milliseconds (from currentTimeMillis()) when we can draw again
     // used to control the frame rate
-    private static long nextDraw = -1;  
+    private static long nextDraw = -1;
 
     // singleton pattern: client can't instantiate
     private StdDraw() { }
@@ -649,18 +655,59 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
         init();
     }
 
+    public static boolean isRetina() {
+
+    	boolean isRetina = false;
+    	GraphicsDevice graphicsDevice = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+
+    	try {
+    		Field field = graphicsDevice.getClass().getDeclaredField("scale");
+    		if (field != null) {
+    			field.setAccessible(true);
+    			Object scale = field.get(graphicsDevice);
+    			if(scale instanceof Integer && ((Integer) scale).intValue() == 2) {
+    				isRetina = true;
+    			}
+    		}
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+    	return isRetina;
+    }
+
+    public static void setRetinaScale(){
+        retinaScale = 1.0;
+        GraphicsDevice graphicsDevice = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+
+        try {
+            Field field = graphicsDevice.getClass().getDeclaredField("scale");
+            if (field != null) {
+                field.setAccessible(true);
+                Object scale = field.get(graphicsDevice);
+                if(scale instanceof Integer) {
+                    retinaScale = (double) ((Integer) scale).intValue();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     // init
     private static void init() {
         if (frame != null) frame.setVisible(false);
         frame = new JFrame();
-        offscreenImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-        onscreenImage  = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+
+        setRetinaScale();
+        int scale = (int) retinaScale;
+        offscreenImage = new BufferedImage(width*scale, height*scale, BufferedImage.TYPE_INT_ARGB);
+        onscreenImage  = new BufferedImage(width*scale, height*scale, BufferedImage.TYPE_INT_ARGB);
         offscreen = offscreenImage.createGraphics();
         onscreen  = onscreenImage.createGraphics();
         setXscale();
         setYscale();
         offscreen.setColor(DEFAULT_CLEAR_COLOR);
-        offscreen.fillRect(0, 0, width, height);
+        offscreen.fillRect(0, 0, width*scale, height*scale);
         setPenColor();
         setPenRadius();
         setFont();
@@ -673,7 +720,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
         offscreen.addRenderingHints(hints);
 
         // frame stuff
-        ImageIcon icon = new ImageIcon(onscreenImage);
+        RetinaIcon icon = new RetinaIcon(onscreenImage);
         JLabel draw = new JLabel(icon);
 
         draw.addMouseListener(std);
@@ -740,7 +787,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
      * @throws IllegalArgumentException if {@code (max == min)}
      */
     public static void setXscale(double min, double max) {
-        double size = max - min;
+        double size = (max - min) * retinaScale;
         if (size == 0.0) throw new IllegalArgumentException("the min and max are the same");
         synchronized (mouseLock) {
             xmin = min - BORDER * size;
@@ -756,7 +803,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
      * @throws IllegalArgumentException if {@code (max == min)}
      */
     public static void setYscale(double min, double max) {
-        double size = max - min;
+        double size = (max - min) * retinaScale;
         if (size == 0.0) throw new IllegalArgumentException("the min and max are the same");
         synchronized (mouseLock) {
             ymin = min - BORDER * size;
@@ -772,7 +819,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
      * @throws IllegalArgumentException if {@code (max == min)}
      */
     public static void setScale(double min, double max) {
-        double size = max - min;
+        double size = (max - min) * retinaScale;
         if (size == 0.0) throw new IllegalArgumentException("the min and max are the same");
         synchronized (mouseLock) {
             xmin = min - BORDER * size;
@@ -783,10 +830,10 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
     }
 
     // helper functions that scale from user coordinates to screen coordinates and back
-    private static double  scaleX(double x) { return width  * (x - xmin) / (xmax - xmin); }
-    private static double  scaleY(double y) { return height * (ymax - y) / (ymax - ymin); }
-    private static double factorX(double w) { return w * width  / Math.abs(xmax - xmin);  }
-    private static double factorY(double h) { return h * height / Math.abs(ymax - ymin);  }
+    private static double  scaleX(double x) { return width * retinaScale * (x - xmin) / (xmax - xmin); }
+    private static double  scaleY(double y) { return height * retinaScale * (ymax - y) / (ymax - ymin); }
+    private static double factorX(double w) { return w * width * retinaScale  / Math.abs(xmax - xmin);  }
+    private static double factorY(double h) { return h * height * retinaScale / Math.abs(ymax - ymin);  }
     private static double   userX(double x) { return xmin + x * (xmax - xmin) / width;    }
     private static double   userY(double y) { return ymax - y * (ymax - ymin) / height;   }
 
@@ -805,7 +852,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
      */
     public static void clear(Color color) {
         offscreen.setColor(color);
-        offscreen.fillRect(0, 0, width, height);
+        offscreen.fillRect(0, 0, width * (int)retinaScale, height * (int)retinaScale);
         offscreen.setColor(penColor);
         draw();
     }
@@ -841,7 +888,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
     public static void setPenRadius(double radius) {
         if (!(radius >= 0)) throw new IllegalArgumentException("pen radius must be nonnegative");
         penRadius = radius;
-        float scaledPenRadius = (float) (radius * DEFAULT_SIZE);
+        float scaledPenRadius = (float) (radius * DEFAULT_SIZE * retinaScale);
         BasicStroke stroke = new BasicStroke(scaledPenRadius, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
         // BasicStroke stroke = new BasicStroke(scaledPenRadius);
         offscreen.setStroke(stroke);
@@ -1170,10 +1217,10 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 
 
     /**
-     * Draws a polygon with the vertices 
+     * Draws a polygon with the vertices
      * (<em>x</em><sub>0</sub>, <em>y</em><sub>0</sub>),
      * (<em>x</em><sub>1</sub>, <em>y</em><sub>1</sub>), ...,
-     * (<em>x</em><sub><em>n</em>–1</sub>, <em>y</em><sub><em>n</em>–1</sub>).
+     * (<em>x</em><sub><em>n</em>ï¿½1</sub>, <em>y</em><sub><em>n</em>ï¿½1</sub>).
      *
      * @param  x an array of all the <em>x</em>-coordinates of the polygon
      * @param  y an array of all the <em>y</em>-coordinates of the polygon
@@ -1197,10 +1244,10 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
     }
 
     /**
-     * Draws a polygon with the vertices 
+     * Draws a polygon with the vertices
      * (<em>x</em><sub>0</sub>, <em>y</em><sub>0</sub>),
      * (<em>x</em><sub>1</sub>, <em>y</em><sub>1</sub>), ...,
-     * (<em>x</em><sub><em>n</em>–1</sub>, <em>y</em><sub><em>n</em>–1</sub>).
+     * (<em>x</em><sub><em>n</em>ï¿½1</sub>, <em>y</em><sub><em>n</em>ï¿½1</sub>).
      *
      * @param  x an array of all the <em>x</em>-coordinates of the polygon
      * @param  y an array of all the <em>y</em>-coordinates of the polygon
@@ -1278,7 +1325,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
             URL url = new URL(filename);
             BufferedImage image = ImageIO.read(url);
             return image;
-        } 
+        }
         catch (IOException e) {
             // ignore
         }
@@ -1288,7 +1335,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
             URL url = StdDraw.class.getResource(filename);
             BufferedImage image = ImageIO.read(url);
             return image;
-        } 
+        }
         catch (IOException e) {
             // ignore
         }
@@ -1298,7 +1345,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
             URL url = StdDraw.class.getResource("/" + filename);
             BufferedImage image = ImageIO.read(url);
             return image;
-        } 
+        }
         catch (IOException e) {
             // ignore
         }
@@ -1574,7 +1621,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
     }
 
     /**
-     * Enable double buffering. All subsequent calls to 
+     * Enable double buffering. All subsequent calls to
      * drawing methods such as {@code line()}, {@code circle()},
      * and {@code square()} will be deffered until the next call
      * to show(). Useful for animations.
@@ -1584,7 +1631,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
     }
 
     /**
-     * Disable double buffering. All subsequent calls to 
+     * Disable double buffering. All subsequent calls to
      * drawing methods such as {@code line()}, {@code circle()},
      * and {@code square()} will be displayed on screen when called.
      * This is the default.
@@ -1625,7 +1672,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
         else if ("jpg".equalsIgnoreCase(suffix)) {
             WritableRaster raster = onscreenImage.getRaster();
             WritableRaster newRaster;
-            newRaster = raster.createWritableChild(0, 0, width, height, 0, 0, new int[] {0, 1, 2});
+            newRaster = raster.createWritableChild(0, 0, width * (int)retinaScale, height * (int)retinaScale, 0, 0, new int[] {0, 1, 2});
             DirectColorModel cm = (DirectColorModel) onscreenImage.getColorModel();
             DirectColorModel newCM = new DirectColorModel(cm.getPixelSize(),
                                                           cm.getRedMask(),

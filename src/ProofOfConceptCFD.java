@@ -3,18 +3,34 @@ import java.lang.Math;
 import java.awt.event.KeyEvent;
 
 public class ProofOfConceptCFD {
-    int xdim = 600;
-    int ydim = 240;
-    double[][] H  = new double[xdim][ydim];
-    double[][] B  = new double[xdim][ydim];
-    Mode mode = Mode.ALL;
+    public static int xdim = 600;
+    public static int ydim = 240;
+    public static double[][] H  = new double[xdim][ydim];
+    public static double[][] B  = new double[xdim][ydim];
+    public static Mode mode = Mode.ALL;
+
+    public static void main(String[] args) {
+        // ProofOfConceptCFD poc = new ProofOfConceptCFD();
+        reset();
+        int ppc = 2; // pixels per coordinate
+        int width = xdim * ppc, height = ydim * ppc;
+        StdDraw.setCanvasSize(width, height);  //default is 1200 x 480
+
+        //Set the drawing scale to dimentions
+        StdDraw.setXscale(0, xdim);
+        StdDraw.setYscale(0, ydim);
+
+        double r = 1.0/width;
+        StdDraw.setPenRadius(r);
+
+        run();
+    }
 
     /***************************************************************************
-	 * CONSTRUCTORS                                                            *
-	 **************************************************************************/
+	* METHODS                                                                 *
+	**************************************************************************/
 
-
-    public ProofOfConceptCFD(){
+    public static void reset(){
         for (int i = 0; i < xdim; i++){
             for (int j = 0; j < ydim; j++){
                 assert xdim == H.length;
@@ -28,25 +44,9 @@ public class ProofOfConceptCFD {
                 B[i][j] = (x + y) % 10.0;
             }
         }
-
-
-        int ppc = 2; // pixels per coordinate
-        int width = xdim * ppc, height = ydim * ppc;
-        StdDraw.setCanvasSize(width, height);  //default is 1200 x 480
-
-        //Set the drawing scale to dimentions
-        StdDraw.setXscale(0, xdim);
-        StdDraw.setYscale(0, ydim);
-
-        double r = 1.0/width;
-        StdDraw.setPenRadius(r);
     }
 
-    /***************************************************************************
-	 * METHODS                                                                 *
-	 **************************************************************************/
-
-    public void advance(){
+    public static void advance(){
         for (int i = 0; i < xdim; i++){
             for (int j = 0; j < ydim; j++){
                 // H[i][j] = (H[i][j] * 1.01) % 1.0;
@@ -56,7 +56,7 @@ public class ProofOfConceptCFD {
         }
     }
 
-    public void draw(){
+    public static void draw(){
         for (int i = 0; i < xdim; i++){
             for (int j = 0; j < ydim; j++){
                 float h = (float) H[i][j];
@@ -71,7 +71,7 @@ public class ProofOfConceptCFD {
         }
     }
 
-    public void drawH(){
+    public static void drawH(){
         for (int i = 0; i < xdim; i++){
             for (int j = 0; j < ydim; j++){
                 float h = (float) H[i][j];
@@ -85,7 +85,7 @@ public class ProofOfConceptCFD {
         }
     }
 
-    public void drawB(){
+    public static void drawB(){
         for (int i = 0; i < xdim; i++){
             for (int j = 0; j < ydim; j++){
                 float b = (float) B[i][j]/10;
@@ -99,7 +99,7 @@ public class ProofOfConceptCFD {
         }
     }
 
-    public void run(){
+    public static void run(){
         // control when to show to save running time
         StdDraw.enableDoubleBuffering();
 

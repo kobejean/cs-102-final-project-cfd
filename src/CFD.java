@@ -5,14 +5,14 @@ import java.awt.event.KeyEvent;
 public class CFD implements Runnable {
     // int xdim = 1200;
     // int ydim = 480;
-    // int xdim = 600;
-    // int ydim = 240;
+    int xdim = 600;
+    int ydim = 240;
     // int xdim = 400;
     // int ydim = 160;
-    int xdim = 200;
-    int ydim = 80;
+    // int xdim = 200;
+    // int ydim = 80;
 
-    double velocity = 0.1;
+    double velocity = 0.12;
     double viscocity = 0.020;
 
     int stepTime = 0;			// performance measure: time in ms for a single iteration of the algorithm

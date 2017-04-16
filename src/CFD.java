@@ -292,27 +292,27 @@ public class CFD implements Runnable {
 		time++;
     }
 
-    void drawBarrier(){
+    void draw(){
         for (int x = 0; x < xdim; x++){
             for (int y = 0; y < ydim; y++){
-                Color color = Color.WHITE;
-                if (barrier[x][y]) {
-					color = Color.BLACK;
-				}
+                Color color = Color.WHITE;;
+                switch(mode){
+                    case BARRIER:
+                        if (barrier[x][y]) {
+        					color = Color.BLACK;
+        				}
+                        break;
+                    case SPEED:
+                        float S = Math.min((float) Math.sqrt(speed2[x][y])*3.0f, 1.0f);
+                        color = Color.getHSBColor(0.5f,1.0f,S);
+                        break;
+                    case DENSITY:
+                        float D = Math.min((float) (density[x][y]-1)*0.3f, 1.0f);
+                        color = Color.getHSBColor(0.75f,1.0f,D);
+                        break;
+                }
                 double r = 0.5;
-                StdDraw.setPenColor(color);
-                StdDraw.filledSquare(x,y,r);
-            }
-        }
-    }
 
-    void drawSpeed(){
-        for (int x = 0; x < xdim; x++){
-            for (int y = 0; y < ydim; y++){
-                float b = Math.min((float) Math.sqrt(speed2[x][y])*3.0f, 1.0f);
-                double r = 0.5;
-
-                Color color = Color.getHSBColor(0.5f,1.0f,b);
                 StdDraw.setPenColor(color);
                 StdDraw.filledSquare(x,y,r);
             }
@@ -334,14 +334,11 @@ public class CFD implements Runnable {
                 mode = Mode.BARRIER;
             }else if (StdDraw.isKeyPressed(KeyEvent.VK_S)){
                 mode = Mode.SPEED;
-            }else if (StdDraw.isKeyPressed(KeyEvent.VK_H)){
-                // mode = Mode.HUE;
+            }else if (StdDraw.isKeyPressed(KeyEvent.VK_D)){
+                mode = Mode.DENSITY;
             }
             // StdDraw.clear();
-            switch(mode){
-                case BARRIER: drawBarrier(); break;
-                case SPEED: drawSpeed(); break;
-            }
+            draw();
             StdDraw.show();
             StdDraw.pause(shortDelay);
         }
@@ -352,6 +349,6 @@ public class CFD implements Runnable {
     ***************************************************************************/
 
     public enum Mode {
-        BARRIER, SPEED
+        BARRIER, SPEED, DENSITY
     }
 }

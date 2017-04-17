@@ -14,7 +14,7 @@ public class CFD implements Runnable {
     // int xdim = 200;
     // int ydim = 80;
 
-    double velocity = 0.12;
+    double velocity = 0.1;
     double viscocity = 0.020;
 
     int stepTime = 0;			// performance measure: time in ms for a single iteration of the algorithm
@@ -328,8 +328,19 @@ public class CFD implements Runnable {
         int shortDelay = 20;
         int normalDelay = 100;
 
+        draw();
+
+        int screenshot_num = 0;
         while (true){
-            for (int s = 0; s < timeStepsPerFrame; s++) advance();
+
+            for (int s = 0; s < timeStepsPerFrame; s++) {
+                advance();
+                if (time % 250 == timeStepsPerFrame + 1){
+                    screenshot_num++;
+                    String filepath = "screenshots/CFD-250-" + screenshot_num + ".png";
+                    StdDraw.save(filepath);
+                }
+            }
             try {Thread.sleep(1);} catch (InterruptedException e) {}
 
             if(StdDraw.isKeyPressed(KeyEvent.VK_B)){

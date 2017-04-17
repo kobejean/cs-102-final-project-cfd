@@ -573,7 +573,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 
     // boundary of drawing canvas, 0% border
     // private static final double BORDER = 0.05;
-    private static final double BORDER = 0.00;
+    private static final double BORDER = 0.0000;
     private static final double DEFAULT_XMIN = 0.0;
     private static final double DEFAULT_XMAX = 1.0;
     private static final double DEFAULT_YMIN = 0.0;
@@ -699,7 +699,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
         frame = new JFrame();
 
         setRetinaScale();
-        int scale = (int) retinaScale;
+        int scale = (int) Math.round(retinaScale);
         offscreenImage = new BufferedImage(width*scale, height*scale, BufferedImage.TYPE_INT_ARGB);
         onscreenImage  = new BufferedImage(width*scale, height*scale, BufferedImage.TYPE_INT_ARGB);
         offscreen = offscreenImage.createGraphics();
@@ -787,7 +787,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
      * @throws IllegalArgumentException if {@code (max == min)}
      */
     public static void setXscale(double min, double max) {
-        double size = (max - min) * retinaScale;
+        double size = max - min;
         if (size == 0.0) throw new IllegalArgumentException("the min and max are the same");
         synchronized (mouseLock) {
             xmin = min - BORDER * size;
@@ -803,7 +803,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
      * @throws IllegalArgumentException if {@code (max == min)}
      */
     public static void setYscale(double min, double max) {
-        double size = (max - min) * retinaScale;
+        double size = max - min;
         if (size == 0.0) throw new IllegalArgumentException("the min and max are the same");
         synchronized (mouseLock) {
             ymin = min - BORDER * size;

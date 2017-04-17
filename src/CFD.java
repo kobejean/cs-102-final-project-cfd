@@ -3,8 +3,10 @@ import java.lang.Math;
 import java.awt.event.KeyEvent;
 
 public class CFD implements Runnable {
-    int xdim = 2400;
-    int ydim = 960;
+    int xdim = 4800;
+    int ydim = 1920;
+    // int xdim = 2400;
+    // int ydim = 960;
     // int xdim = 1200;
     // int ydim = 480;
     // int xdim = 600;
@@ -14,7 +16,7 @@ public class CFD implements Runnable {
     // int xdim = 200;
     // int ydim = 80;
 
-    double velocity = 0.1;
+    double velocity = 0.100;
     double viscocity = 0.020;
 
     int stepTime = 0;			// performance measure: time in ms for a single iteration of the algorithm
@@ -337,7 +339,7 @@ public class CFD implements Runnable {
                 advance();
                 if (time % 250 == timeStepsPerFrame + 1){
                     screenshot_num++;
-                    String filepath = "screenshots/CFD-250-" + screenshot_num + ".png";
+                    String filepath = "screenshots/hd-windtunnel/CFD-T250-HD-" + screenshot_num + ".png";
                     StdDraw.save(filepath);
                 }
             }

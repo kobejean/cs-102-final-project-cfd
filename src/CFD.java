@@ -337,9 +337,10 @@ public class CFD implements Runnable {
 
             for (int s = 0; s < timeStepsPerFrame; s++) {
                 advance();
-                if (time % 250 == timeStepsPerFrame + 1){
+                int snaprate = 250;
+                if (time % snaprate == timeStepsPerFrame + 1){
                     screenshot_num++;
-                    String filepath = "screenshots/hd-windtunnel/CFD-T250-HD-" + screenshot_num + ".png";
+                    String filepath = "screenshots/hd-windtunnel-2/CFD-T"+snaprate+"-HD-" + screenshot_num + ".png";
                     StdDraw.save(filepath);
                 }
             }

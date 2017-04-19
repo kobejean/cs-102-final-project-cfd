@@ -3,8 +3,8 @@ import java.lang.Math;
 import java.awt.event.KeyEvent;
 
 public class CFD implements Runnable {
-    int xdim = 4800;
-    int ydim = 1920;
+    // int xdim = 4800;
+    // int ydim = 1920;
     // int xdim = 2400;
     // int ydim = 960;
     // int xdim = 1200;
@@ -13,8 +13,8 @@ public class CFD implements Runnable {
     // int ydim = 240;
     // int xdim = 400;
     // int ydim = 160;
-    // int xdim = 200;
-    // int ydim = 80;
+    int xdim = 200;
+    int ydim = 80;
 
     double velocity = 0.100;
     double viscocity = 0.020;
@@ -341,7 +341,7 @@ public class CFD implements Runnable {
                 if (time % snaprate == timeStepsPerFrame + 1){
                     screenshot_num++;
                     String filepath = "screenshots/hd-windtunnel-2/CFD-T"+snaprate+"-HD-" + screenshot_num + ".png";
-                    StdDraw.save(filepath);
+                    // StdDraw.save(filepath);
                 }
             }
             try {Thread.sleep(1);} catch (InterruptedException e) {}

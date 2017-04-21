@@ -1,8 +1,12 @@
+/*
+Adapted from: http://physics.weber.edu/schroeder/fluids/
+*/
 import java.awt.Color;
 import java.lang.Math;
 import java.awt.event.KeyEvent;
 
 public class CFD implements Runnable {
+    // Dimentions
     // int xdim = 4800;
     // int ydim = 1920;
     // int xdim = 2400;
@@ -16,13 +20,10 @@ public class CFD implements Runnable {
     int xdim = 200;
     int ydim = 80;
 
-    double velocity = 0.100;
+    // Constants
+    double velocity = 0.070;
     double viscocity = 0.020;
 
-    int stepTime = 0;			// performance measure: time in ms for a single iteration of the algorithm
-    int collideTime = 0;
-	int streamTime = 0;
-	int paintTime = 0;
 	// Here are the arrays of densities by velocity, named by velocity directions with north up:
     double[][] n0  = new double[xdim][ydim];
     double[][] nN  = new double[xdim][ydim];
@@ -43,12 +44,12 @@ public class CFD implements Runnable {
     // Boolean array, true at sites that contain barriers:
 	boolean[][] barrier = new boolean[xdim][ydim];
 
-    int time = 0;	// time in units of the fundamental step size
+    int time = 0;
     int timeStepsPerFrame = 10;
-
+    int screenshotRate = 250;
     Mode mode = Mode.SPEED;
 
-    // calculation short-cuts:
+    // Calculation short-cuts:
     double four9ths = 4.0 / 9;
     double one9th = 1.0 / 9;
     double one36th = 1.0 / 36;
@@ -56,7 +57,6 @@ public class CFD implements Runnable {
     CFD() {
         reset();
 
-        // int width = xdim * ppc, height = ydim * ppc;
         int width = 1200, height = 480;
         // int width = 300, height = 120;
         StdDraw.setCanvasSize(width, height);  //default is 1200 x 480
@@ -71,9 +71,8 @@ public class CFD implements Runnable {
         // Now start the simulation thread:
         Thread simThread = new Thread(this);
         simThread.start();
-
-        // run();
     }
+
     public static void main(String[] args) {
         new CFD();
     }
@@ -283,16 +282,9 @@ public class CFD implements Runnable {
     }
 
     synchronized void advance(){
-        long startTime = System.currentTimeMillis();
-		//force();
-		long forceTime = System.currentTimeMillis();
 		collide();
-		long afterCollideTime = System.currentTimeMillis();
-		collideTime = (int) (afterCollideTime - forceTime);		// 23-24 ms for 600x600 grid
 		stream();
-		streamTime = (int) (System.currentTimeMillis() - afterCollideTime);	// 9-10 ms for 600x600 grid
 		bounce();
-		stepTime = (int) (System.currentTimeMillis() - startTime);	// 33-35 ms for 600x600 grid
 		time++;
     }
 
@@ -315,8 +307,8 @@ public class CFD implements Runnable {
                         color = Color.getHSBColor(0.75f,1.0f,D);
                         break;
                 }
+                
                 double r = 0.5;
-
                 StdDraw.setPenColor(color);
                 StdDraw.filledSquare(x,y,r);
             }
@@ -332,15 +324,14 @@ public class CFD implements Runnable {
 
         draw();
 
-        int screenshot_num = 0;
+        int screenshotNum = 0;
         while (true){
 
             for (int s = 0; s < timeStepsPerFrame; s++) {
                 advance();
-                int snaprate = 250;
-                if (time % snaprate == timeStepsPerFrame + 1){
-                    screenshot_num++;
-                    String filepath = "screenshots/hd-windtunnel-2/CFD-T"+snaprate+"-HD-" + screenshot_num + ".png";
+                if (time % screenshotRate == timeStepsPerFrame + 1){
+                    screenshotNum++;
+                    String filepath = "screenshots/hd-windtunnel-2/CFD-T" + screenshotRate + "-HD-" + screenshotNum + ".png";
                     // StdDraw.save(filepath);
                 }
             }

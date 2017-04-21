@@ -18,17 +18,15 @@ public class ProofOfConceptCFD {
     public static Mode mode = Mode.ALL;
 
     public static void main(String[] args) {
-        // ProofOfConceptCFD poc = new ProofOfConceptCFD();
         reset();
         int width = 1200, height = 480;
-        // int width = 300, height = 120;
         StdDraw.setCanvasSize(width, height);  //default is 1200 x 480
 
         //Set the drawing scale to dimentions
         StdDraw.setXscale(0, xdim);
         StdDraw.setYscale(0, ydim);
 
-        double r = 1.0/width;
+        double r = 1.0 / width;
         StdDraw.setPenRadius(r);
 
         run();
@@ -45,10 +43,9 @@ public class ProofOfConceptCFD {
                 assert ydim == H[i].length;
                 int x = xdim/2 - i;
                 int y = ydim/2 - j;
-                // double r =  Math.sqrt(x*x + y*y) * 0.001;
                 double r =  Math.sqrt(x*x + y*y) * 0.01;
 
-                H[i][j] = r % 1.0;//(x + y) % 10.0;
+                H[i][j] = r % 1.0;
                 B[i][j] = (x + y) % 10.0;
             }
         }
@@ -57,7 +54,6 @@ public class ProofOfConceptCFD {
     public static void advance(){
         for (int i = 0; i < xdim; i++){
             for (int j = 0; j < ydim; j++){
-                // H[i][j] = (H[i][j] * 1.01) % 1.0;
                 H[i][j] = (H[i][j] + 0.1) % 1.0;
                 B[i][j] = (B[i][j] + 1.0) % 10.0;
             }
@@ -115,9 +111,7 @@ public class ProofOfConceptCFD {
         int normalDelay = 100;
 
         while (true){
-            for (int i = 0; i < 1; i++){
-                advance();
-            }
+            advance();
             if(StdDraw.isKeyPressed(KeyEvent.VK_A)){
                 mode = Mode.ALL;
             }else if (StdDraw.isKeyPressed(KeyEvent.VK_B)){

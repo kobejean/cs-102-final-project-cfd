@@ -1,3 +1,6 @@
+/*
+Adapted from: http://stackoverflow.com/questions/12431148/swing-and-bitmaps-on-retina-displays
+*/
 // import java.awt.BasicStroke;
 // import java.awt.Color;
 // import java.awt.FileDialog;
@@ -72,28 +75,23 @@ public class RetinaIcon extends ImageIcon {
     }
 
     @Override
-    public int getIconWidth()
-    {
-        if(isRetina())
-        {
+    public int getIconWidth(){
+        if(isRetina()){
             return super.getIconWidth()/2;
         }
         return super.getIconWidth();
     }
 
     @Override
-    public int getIconHeight()
-    {
-        if(isRetina())
-        {
+    public int getIconHeight(){
+        if(isRetina()){
             return super.getIconHeight()/2;
         }
         return super.getIconHeight();
     }
 
     @Override
-    public synchronized void paintIcon(Component c, Graphics g, int x, int y)
-    {
+    public synchronized void paintIcon(Component c, Graphics g, int x, int y){
         ImageObserver observer = getImageObserver();
 
         if (observer == null)
@@ -106,13 +104,8 @@ public class RetinaIcon extends ImageIcon {
         int height = image.getHeight(observer);
         final Graphics2D g2d = (Graphics2D)g.create(x, y, width, height);
 
-        if(isRetina())
-        {
+        if(isRetina()){
             g2d.scale(0.5, 0.5);
-        }
-        else
-        {
-
         }
         g2d.drawImage(image, 0, 0, observer);
         g2d.scale(1, 1);

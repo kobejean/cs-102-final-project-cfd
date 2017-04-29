@@ -1,51 +1,101 @@
+/*******************************************************************************
+*                             - ProofOfConcept -                               *
+*                                                                              *
+* PROGRAMMER:  Jean Flaherty  04/29/17                                         *
+* CLASS:  CS102                                                                *
+* SEMESTER:  Spring, 2017                                                      *
+* INSTRUCTOR:  Dean Zeller                                                     *
+*                                                                              *
+* DESCRIPTION:                                                                 *
+* This program shows simple examples of how a physics simulation works.        *
+*                                                                              *
+* EXTERNAL FILES:                                                              *
+* - StdDraw.java                                                               *
+* - RetinaIcon.java                                                            *
+* - Simulation.java                                                            *
+*                                                                              *
+* These files must be in the workspace of the program for it to work correctly.*
+*                                                                              *
+* The drawing commands used in this program are part of the StdDraw            *
+* graphics libary. Slight modifications were made in order to make the graphic *
+* display nicely on a retina display macbook. Include RatinaIcon.java when     *
+* using this verion of StdDraw. However the original StdDraw.java should work  *
+* as well. It can be found at http://introcs.cs.princeton.edu/java/stdlib/     *
+*                                                                              *
+* CREDITS:                                                                     *
+* This program is copyright (c) 2017 Jean Flaherty.                            *
+*******************************************************************************/
+
+
 import java.awt.Color;
 import java.lang.Math;
 import java.awt.event.KeyEvent;
 import java.util.Random;
+import javax.swing.JOptionPane;
 
-public class ProofOfConcept {
-    // public static int xdim = 2400;
-    // public static int ydim = 960;
-    // public static int xdim = 1200;
-    // public static int ydim = 480;
-    // public static int xdim = 600;
-    // public static int ydim = 240;
-    // public static int xdim = 400;
-    // public static int ydim = 160;
-    public int xdim = 100;
-    public int ydim = 40;
+public class ProofOfConcept extends Simulation {
+    /***************************************************************************
+    *                                - DIMENTIONS -                            *
+    ***************************************************************************/
+
+    // simulation canvas size
+    static int width = 1200, height = 480;
+    // number of data points / pixels per dimention
+    static int xdim = 100, ydim = 40;
+    // static int xdim = 4800, ydim = 1920; // HD
+    // static int xdim = 2400, ydim = 960;
+    // static int xdim = 1200, ydim = 480;
+    // static int xdim = 600, ydim = 240;
+    // static int xdim = 400, ydim = 160;
+    // static int xdim = 200, ydim = 80;
+
+    /***************************************************************************
+    *                           - STATE ENUMERATION -                          *
+    ***************************************************************************/
+
+    public enum State {
+        EMPTY_SPACE, BARRIER, LEFT_PARTICLE, RIGHT_PARTICLE
+    }
+
+    /***************************************************************************
+    *                           - SIMULATION VARIABLES -                       *
+    ***************************************************************************/
+
     public double[][] H  = new double[xdim][ydim]; // hue
     public double[][] B  = new double[xdim][ydim]; // brightness
     public State[][] S = new State[xdim][ydim]; // state
     public DisplayMode displayMode = DisplayMode.EXAMPLE1;
-    public PlayState playState = PlayState.FRAME_BY_FRAME;
 
-    ProofOfConcept() {
-        reset();
 
-        int width = 1200, height = 480;
-        StdDraw.setCanvasSize(width, height);
-
-        // Set the drawing scale to dimentions
-        // the -.5 is so that the coordinates align with the center of the pixel
-        StdDraw.setXscale(0-.5, xdim-.5);
-        StdDraw.setYscale(0-.5, ydim-.5);
-
-        // Set 1px pen radius
-        double r = 1.0/width;
-        StdDraw.setPenRadius(r);
-
-        run();
-    }
+    /***************************************************************************
+    *                              - MAIN METHOD -                             *
+    ***************************************************************************/
 
     public static void main(String[] args) {
-        new ProofOfConcept();
+        ProofOfConcept simulation = new ProofOfConcept();
+        simulation.setDimentions(width, height, xdim, ydim);
+
+        // messege to user
+        String message = "Pressable keys:\n" +
+        "   (1) Example 1 - shows example 1\n" +
+        "   (2) Example 2 - shows example 2\n" +
+        "   (3) Example 3 - shows example 3\n" +
+        "   (4) Example 4 - shows example 4\n" +
+        "   (A) Animate - plays the simulation\n" +
+        "   (C) Click through - click to advance to next frame\n" +
+        "   (R) Reset - resets the simulation\n";
+        JOptionPane.showMessageDialog(null, message);
+
+        // Now start the simulation thread:
+        Thread simThread = new Thread(simulation);
+        simThread.start();
     }
 
     /***************************************************************************
-	* METHODS                                                                 *
-	**************************************************************************/
+    *                            - RESET SIMULATION -                          *
+    ***************************************************************************/
 
+    @Override
     public void reset(){
         // Set H and B
         for (int x = 0; x < xdim; x++){
@@ -69,8 +119,33 @@ public class ProofOfConcept {
             S[rand_x][y] = State.LEFT_PARTICLE;
             S[right_x][y] = State.BARRIER;
         }
+
+        // Uncomment this to include a circular barrier in the middle
+
+        // // Add center circle barrier
+        // for (int x = 0; x < xdim; x++){
+        //     for (int y = 0; y < ydim; y++){
+        //         // relative coordinates to the center
+        //         int relx = x - xdim/2;
+        //         int rely = y - ydim/2;
+        //
+        //         // curent distance from center
+        //         double dist =  Math.sqrt(relx*relx + rely*rely);
+        //         // radius of barrier
+        //         double r = Math.min(xdim,ydim) * 0.2;
+        //
+        //         if (dist < r){
+        //             S[x][y] = State.BARRIER;
+        //         }
+        //     }
+        // }
     }
 
+    /***************************************************************************
+    *                          - ADVANCE SIMULATION -                          *
+    ***************************************************************************/
+
+    @Override
     public void advance(){
         State[][] newS = new State[xdim][ydim];
         // copy
@@ -110,6 +185,16 @@ public class ProofOfConcept {
         S = newS;
     }
 
+    public boolean isOnScreen(int x, int y){
+        return x >= 0 && x < xdim && y >= 0 && y < ydim;
+    }
+
+
+    /***************************************************************************
+    *                            - DRAW SIMULATION -                           *
+    ***************************************************************************/
+
+    @Override
     public void draw(){
         switch(displayMode){
             case EXAMPLE1: drawExample1(); break;
@@ -182,11 +267,21 @@ public class ProofOfConcept {
         }
     }
 
+
+    /***************************************************************************
+    *                      - DISPLAY MODE ENUMERATION -                        *
+    ***************************************************************************/
+
+    public enum DisplayMode {
+        EXAMPLE1, EXAMPLE2, EXAMPLE3, EXAMPLE4
+    }
+
+
+    @Override
     public void run(){
+        reset();
         // control when to show to save running time
         StdDraw.enableDoubleBuffering();
-
-        int shortDelay = 30;
 
         boolean wasMousePressed = false;
         while (true){
@@ -199,10 +294,15 @@ public class ProofOfConcept {
                 displayMode = DisplayMode.EXAMPLE3;
             }else if (StdDraw.isKeyPressed(KeyEvent.VK_4)){
                 displayMode = DisplayMode.EXAMPLE4;
-            }else if (StdDraw.isKeyPressed(KeyEvent.VK_P)){
-                playState = PlayState.PLAY;
-            }else if (StdDraw.isKeyPressed(KeyEvent.VK_F)){
-                playState = PlayState.FRAME_BY_FRAME;
+            }else if (StdDraw.isKeyPressed(KeyEvent.VK_A)){
+                playMode = PlayMode.ANIMATE;
+            }else if (StdDraw.isKeyPressed(KeyEvent.VK_C)){
+                playMode = PlayMode.CLICK_THROUGH;
+            }else if (StdDraw.isKeyPressed(KeyEvent.VK_R)){
+                // if "r" key was pressed
+                reset();
+                draw();
+                StdDraw.show();
             }
 
             if (oldDispMode != displayMode){
@@ -212,14 +312,14 @@ public class ProofOfConcept {
                 StdDraw.show();
             }
             // StdDraw.clear();
-            switch(playState){
-                case PLAY:
+            switch(playMode){
+                case ANIMATE:
                     advance();
                     draw();
                     StdDraw.show();
-                    StdDraw.pause(shortDelay);
+                    StdDraw.pause(frameDelay);
                     break;
-                case FRAME_BY_FRAME:
+                case CLICK_THROUGH:
                     if(StdDraw.mousePressed() && !wasMousePressed){
                         // if new click
                         advance();
@@ -232,31 +332,4 @@ public class ProofOfConcept {
         }
     }
 
-    public boolean isOnScreen(int x, int y){
-        return x >= 0 && x < xdim && y >= 0 && y < ydim;
-    }
-
-    /***************************************************************************
-    *                      - DISPLAY MODE ENUMERATION -                        *
-    ***************************************************************************/
-
-    public enum DisplayMode {
-        EXAMPLE1, EXAMPLE2, EXAMPLE3, EXAMPLE4
-    }
-
-    /***************************************************************************
-    *                        - PLAY STATE ENUMERATION -                        *
-    ***************************************************************************/
-
-    public enum PlayState {
-        PLAY, FRAME_BY_FRAME
-    }
-
-    /***************************************************************************
-    *                           - STATE ENUMERATION -                          *
-    ***************************************************************************/
-
-    public enum State {
-        EMPTY_SPACE, BARRIER, LEFT_PARTICLE, RIGHT_PARTICLE
-    }
 }

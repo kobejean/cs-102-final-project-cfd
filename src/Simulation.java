@@ -60,7 +60,10 @@ public class Simulation implements Runnable {
                 playMode = PlayMode.CLICK_THROUGH;
             }else if (StdDraw.isKeyPressed(KeyEvent.VK_R)){
                 // if "r" key was pressed
+                time = 0;
                 reset();
+                draw();
+                StdDraw.show();
             }
 
             // draw frame depending on what play mode we are in
@@ -85,8 +88,8 @@ public class Simulation implements Runnable {
             if (time % screenshotRate == 0 && shouldTakeScreenshots){
                 draw();
                 StdDraw.show();
-                String st = String.format("%03d", time);
-                String filepath = screenshotName + "-T" + st + ".png";
+                // String st = String.format("%03d", time);
+                String filepath = screenshotName + "-T" + time + ".png";
                 StdDraw.save(filepath);
             }
             advance();

@@ -1,30 +1,68 @@
-/*
-Adapted from: http://physics.weber.edu/schroeder/fluids/
-*/
+/*******************************************************************************
+*                                 - CFD HD -                                   *
+*                                                                              *
+* PROGRAMMER:  Jean Flaherty  04/29/17                                         *
+* CLASS:  CS102                                                                *
+* SEMESTER:  Spring, 2017                                                      *
+* INSTRUCTOR:  Dean Zeller                                                     *
+*                                                                              *
+* DESCRIPTION:                                                                 *
+* This program simulates fluid dynamics using Lattice Boltzman Methods.        *
+* The math/physics was adapted from http://physics.weber.edu/schroeder/fluids/ *
+* The program takes a long time to run because the dimentions are set to       *
+* 480x1920. Staring at the screeen is like watching paint dry so this program  *
+* will take screen shots every 250 time steps so that you can view a sort of   *
+* timelapse version after a good deal of time passes. It took me a day and a   *
+* half to have enough screenshots to make the demo video.                      *
+*                                                                              *
+* EXTERNAL FILES:                                                              *
+* - StdDraw.java                                                               *
+* - RetinaIcon.java                                                            *
+* - Simulation.java                                                            *
+*                                                                              *
+* These files must be in the workspace of the program for it to work correctly.*
+*                                                                              *
+* The drawing commands used in this program are part of the StdDraw            *
+* graphics libary. Slight modifications were made in order to make the graphic *
+* display nicely on a retina display macbook. Include RatinaIcon.java when     *
+* using this verion of StdDraw. However the original StdDraw.java should work  *
+* as well. It can be found at http://introcs.cs.princeton.edu/java/stdlib/     *
+*                                                                              *
+* CREDITS:                                                                     *
+* This program is copyright (c) 2017 Jean Flaherty.                            *
+* Adapted from: http://physics.weber.edu/schroeder/fluids/                     *
+*******************************************************************************/
+
 import java.awt.Color;
 import java.lang.Math;
 import java.awt.event.KeyEvent;
+import javax.swing.JOptionPane;
 
-public class CFD_HD implements Runnable {
-    // Dimentions
-    int xdim = 4800;
-    int ydim = 1920;
-    // int xdim = 2400;
-    // int ydim = 960;
-    // int xdim = 1200;
-    // int ydim = 480;
-    // int xdim = 600;
-    // int ydim = 240;
-    // int xdim = 400;
-    // int ydim = 160;
-    // int xdim = 200;
-    // int ydim = 80;
+public class CFD_HD extends Simulation {
+
+    /***************************************************************************
+    *                                - DIMENTIONS -                            *
+    ***************************************************************************/
+    // simulation canvas size
+    static int width = 1200, height = 480;
+    // number of data points / pixels per dimention
+    static int xdim = 4800, ydim = 1920; // HD
+    // static int xdim = 2400, ydim = 960;
+    // static int xdim = 1200, ydim = 480;
+    // static int xdim = 600, ydim = 240;
+    // static int xdim = 400, ydim = 160;
+    // static int xdim = 200, ydim = 80;
+    // static int xdim = 100, ydim = 40;
+
+    /***************************************************************************
+    *                           - SIMULATION VARIABLES -                       *
+    ***************************************************************************/
 
     // Constants
     double velocity = 0.070;
     double viscocity = 0.020;
 
-	// Here are the arrays of densities by velocity, named by velocity directions with north up:
+    // Here are the arrays of densities by velocity, named by velocity directions with north up:
     double[][] n0  = new double[xdim][ydim];
     double[][] nN  = new double[xdim][ydim];
     double[][] nS  = new double[xdim][ydim];
@@ -42,47 +80,46 @@ public class CFD_HD implements Runnable {
     double[][] speed2  = new double[xdim][ydim];
 
     // Boolean array, true at sites that contain barriers:
-	boolean[][] barrier = new boolean[xdim][ydim];
+    boolean[][] barrier = new boolean[xdim][ydim];
 
-    int time = 0;
-    int timeStepsPerFrame = 10;
-    int screenshotRate = 250;
-    Mode mode = Mode.SPEED;
 
     // Calculation short-cuts:
     double four9ths = 4.0 / 9;
     double one9th = 1.0 / 9;
     double one36th = 1.0 / 36;
 
-    CFD_HD() {
-        reset();
+    /***************************************************************************
+    *                              - MAIN METHOD -                             *
+    ***************************************************************************/
 
-        int width = 1200, height = 480;
-        // int width = 300, height = 120;
-        StdDraw.setCanvasSize(width, height);  //default is 1200 x 480
+    public static void main(String[] args) {
+        CFD_HD simulation = new CFD_HD();
+        simulation.setDimentions(width, height, xdim, ydim);
+        simulation.frameDelay = 0; // will be super slow anyway
+        simulation.timeStepsPerFrame = 10;
+        simulation.screenshotRate = 250;
+        simulation.screenshotName = "CFD-HD";
+        simulation.shouldTakeScreenshots = true;
 
-        //Set the drawing scale to dimentions
-        StdDraw.setXscale(0-.5, xdim-.5);
-        StdDraw.setYscale(0-.5, ydim-.5);
-
-        double r = 1.0/width;
-        StdDraw.setPenRadius(r);
+        // messege to user
+        String message = "Note this program takes a long time to run. \n"+
+        "It takes roughly 3 mins to produce a screenshot. For the demo video,\n"+
+        "it took me a day and a half to get all the screenshots. For a \n" +
+        "real time simulation try running CFD.java.";
+        JOptionPane.showMessageDialog(null, message);
 
         // Now start the simulation thread:
-        Thread simThread = new Thread(this);
+        Thread simThread = new Thread(simulation);
         simThread.start();
     }
 
-    public static void main(String[] args) {
-        new CFD_HD();
-    }
-
     /***************************************************************************
-	* METHODS                                                                 *
-	**************************************************************************/
+	*                            - RESET SIMULATION -                          *
+	***************************************************************************/
 
+    @Override
     public void reset(){
-        time = 0;
+        // initial conditions
         for (int x = 0; x < xdim; x++){
             for (int y = 0; y < ydim; y++){
                 int relx = xdim/2 - x;
@@ -124,7 +161,25 @@ public class CFD_HD implements Runnable {
         }
     }
 
-    // Collide particles within each cell.  Adapted from Wagner's D2Q9 code.
+
+    /***************************************************************************
+	*                          - ADVANCE SIMULATION -                          *
+	***************************************************************************/
+
+    @Override
+    synchronized public void advance(){
+		collide();
+		stream();
+		bounce();
+    }
+
+
+    /***************************************************************************
+	*                               - COLLIDE -                                *
+    * Collide particles within each cell.  Adapted from Wagner's D2Q9 code.    *
+    * From: http://physics.weber.edu/schroeder/fluids/                         *
+	***************************************************************************/
+
     void collide() {
         double n, one9thn, one36thn, vx, vy, vx2, vy2, vx3, vy3, vxvy2, v2, v215;
         double omega = 1 / (3*viscocity + 0.5);	// reciprocal of tau, the relaxation time
@@ -165,84 +220,95 @@ public class CFD_HD implements Runnable {
         }
     }
 
-    // Stream particles into neighboring cells:
-	void stream() {
-		for (int x=0; x<xdim-1; x++) {		// first start in NW corner...
-			for (int y=ydim-1; y>0; y--) {
-				nN[x][y] = nN[x][y-1];		// move the north-moving particles
-				nNW[x][y] = nNW[x+1][y-1];	// and the northwest-moving particles
-			}
-		}
-		for (int x=xdim-1; x>0; x--) {		// now start in NE corner...
-			for (int y=ydim-1; y>0; y--) {
-				nE[x][y] = nE[x-1][y];		// move the east-moving particles
-				nNE[x][y] = nNE[x-1][y-1];	// and the northeast-moving particles
-			}
-		}
-		for (int x=xdim-1; x>0; x--) {		// now start in SE corner...
-			for (int y=0; y<ydim-1; y++) {
-				nS[x][y] = nS[x][y+1];		// move the south-moving particles
-				nSE[x][y] = nSE[x-1][y+1];	// and the southeast-moving particles
-			}
-		}
-		for (int x=0; x<xdim-1; x++) {		// now start in the SW corner...
-			for (int y=0; y<ydim-1; y++) {
-				nW[x][y] = nW[x+1][y];		// move the west-moving particles
-				nSW[x][y] = nSW[x+1][y+1];	// and the southwest-moving particles
-			}
-		}
-		// We missed a few at the left and right edges:
-		for (int y=0; y<ydim-1; y++) {
-			nS[0][y] = nS[0][y+1];
-		}
-		for (int y=ydim-1; y>0; y--) {
-			nN[xdim-1][y] = nN[xdim-1][y-1];
-		}
-		// Now handle left boundary as in Pullan's example code:
-		// Stream particles in from the non-existent space to the left, with the
-		// user-determined speed:
-		double v = velocity;
-		for (int y=0; y<ydim; y++) {
-			if (!barrier[0][y]) {
-				nE[0][y] = one9th * (1 + 3*v + 3*v*v);
-				nNE[0][y] = one36th * (1 + 3*v + 3*v*v);
-				nSE[0][y] = one36th * (1 + 3*v + 3*v*v);
-			}
-		}
-		// Try the same thing at the right edge and see if it works:
-		for (int y=0; y<ydim; y++) {
-			if (!barrier[0][y]) {
-				nW[xdim-1][y] = one9th * (1 - 3*v + 3*v*v);
-				nNW[xdim-1][y] = one36th * (1 - 3*v + 3*v*v);
-				nSW[xdim-1][y] = one36th * (1 - 3*v + 3*v*v);
-			}
-		}
-		// Now handle top and bottom edges:
-		for (int x=0; x<xdim; x++) {
-			n0[x][0]  = four9ths * (1 - 1.5*v*v);
-			nE[x][0]  =   one9th * (1 + 3*v + 3*v*v);
-			nW[x][0]  =   one9th * (1 - 3*v + 3*v*v);
-			nN[x][0]  =   one9th * (1 - 1.5*v*v);
-			nS[x][0]  =   one9th * (1 - 1.5*v*v);
-			nNE[x][0] =  one36th * (1 + 3*v + 3*v*v);
-			nSE[x][0] =  one36th * (1 + 3*v + 3*v*v);
-			nNW[x][0] =  one36th * (1 - 3*v + 3*v*v);
-			nSW[x][0] =  one36th * (1 - 3*v + 3*v*v);
-			n0[x][ydim-1]  = four9ths * (1 - 1.5*v*v);
-			nE[x][ydim-1]  =   one9th * (1 + 3*v + 3*v*v);
-			nW[x][ydim-1]  =   one9th * (1 - 3*v + 3*v*v);
-			nN[x][ydim-1]  =   one9th * (1 - 1.5*v*v);
-			nS[x][ydim-1]  =   one9th * (1 - 1.5*v*v);
-			nNE[x][ydim-1] =  one36th * (1 + 3*v + 3*v*v);
-			nSE[x][ydim-1] =  one36th * (1 + 3*v + 3*v*v);
-			nNW[x][ydim-1] =  one36th * (1 - 3*v + 3*v*v);
-			nSW[x][ydim-1] =  one36th * (1 - 3*v + 3*v*v);
-		}
-	}
 
-    // Bounce particles off of barriers:
-    // (The ifs are needed to prevent array index out of bounds errors. Could handle edges
-    //  separately to avoid this.)
+    /***************************************************************************
+	*                               - STREAM -                                 *
+    * Stream particles into neighboring cells                                  *
+    * From: http://physics.weber.edu/schroeder/fluids/                         *
+	***************************************************************************/
+    void stream() {
+        for (int x=0; x<xdim-1; x++) {		// first start in NW corner...
+            for (int y=ydim-1; y>0; y--) {
+                nN[x][y] = nN[x][y-1];		// move the north-moving particles
+                nNW[x][y] = nNW[x+1][y-1];	// and the northwest-moving particles
+            }
+        }
+        for (int x=xdim-1; x>0; x--) {		// now start in NE corner...
+            for (int y=ydim-1; y>0; y--) {
+                nE[x][y] = nE[x-1][y];		// move the east-moving particles
+                nNE[x][y] = nNE[x-1][y-1];	// and the northeast-moving particles
+            }
+        }
+        for (int x=xdim-1; x>0; x--) {		// now start in SE corner...
+            for (int y=0; y<ydim-1; y++) {
+                nS[x][y] = nS[x][y+1];		// move the south-moving particles
+                nSE[x][y] = nSE[x-1][y+1];	// and the southeast-moving particles
+            }
+        }
+        for (int x=0; x<xdim-1; x++) {		// now start in the SW corner...
+            for (int y=0; y<ydim-1; y++) {
+                nW[x][y] = nW[x+1][y];		// move the west-moving particles
+                nSW[x][y] = nSW[x+1][y+1];	// and the southwest-moving particles
+            }
+        }
+        // We missed a few at the left and right edges:
+        for (int y=0; y<ydim-1; y++) {
+            nS[0][y] = nS[0][y+1];
+        }
+        for (int y=ydim-1; y>0; y--) {
+            nN[xdim-1][y] = nN[xdim-1][y-1];
+        }
+        // Now handle left boundary as in Pullan's example code:
+        // Stream particles in from the non-existent space to the left, with the
+        // user-determined speed:
+        double v = velocity;
+        for (int y=0; y<ydim; y++) {
+            if (!barrier[0][y]) {
+                nE[0][y] = one9th * (1 + 3*v + 3*v*v);
+                nNE[0][y] = one36th * (1 + 3*v + 3*v*v);
+                nSE[0][y] = one36th * (1 + 3*v + 3*v*v);
+            }
+        }
+        // Try the same thing at the right edge and see if it works:
+        for (int y=0; y<ydim; y++) {
+            if (!barrier[0][y]) {
+                nW[xdim-1][y] = one9th * (1 - 3*v + 3*v*v);
+                nNW[xdim-1][y] = one36th * (1 - 3*v + 3*v*v);
+                nSW[xdim-1][y] = one36th * (1 - 3*v + 3*v*v);
+            }
+        }
+        // Now handle top and bottom edges:
+        for (int x=0; x<xdim; x++) {
+            n0[x][0]  = four9ths * (1 - 1.5*v*v);
+            nE[x][0]  =   one9th * (1 + 3*v + 3*v*v);
+            nW[x][0]  =   one9th * (1 - 3*v + 3*v*v);
+            nN[x][0]  =   one9th * (1 - 1.5*v*v);
+            nS[x][0]  =   one9th * (1 - 1.5*v*v);
+            nNE[x][0] =  one36th * (1 + 3*v + 3*v*v);
+            nSE[x][0] =  one36th * (1 + 3*v + 3*v*v);
+            nNW[x][0] =  one36th * (1 - 3*v + 3*v*v);
+            nSW[x][0] =  one36th * (1 - 3*v + 3*v*v);
+            n0[x][ydim-1]  = four9ths * (1 - 1.5*v*v);
+            nE[x][ydim-1]  =   one9th * (1 + 3*v + 3*v*v);
+            nW[x][ydim-1]  =   one9th * (1 - 3*v + 3*v*v);
+            nN[x][ydim-1]  =   one9th * (1 - 1.5*v*v);
+            nS[x][ydim-1]  =   one9th * (1 - 1.5*v*v);
+            nNE[x][ydim-1] =  one36th * (1 + 3*v + 3*v*v);
+            nSE[x][ydim-1] =  one36th * (1 + 3*v + 3*v*v);
+            nNW[x][ydim-1] =  one36th * (1 - 3*v + 3*v*v);
+            nSW[x][ydim-1] =  one36th * (1 - 3*v + 3*v*v);
+        }
+    }
+
+
+    /***************************************************************************
+    *                               - BOUNCE -                                 *
+    * Bounce particles off of barriers:                                        *
+    * (The ifs are needed to prevent array index out of bounds errors.         *
+    *  Could handle edges separately to avoid this.)                           *
+    * From: http://physics.weber.edu/schroeder/fluids/                         *
+    ***************************************************************************/
+
     void bounce() {
         for (int x=0; x<xdim; x++) {
             for (int y=0; y<ydim; y++) {
@@ -258,106 +324,25 @@ public class CFD_HD implements Runnable {
                 }
             }
         }
-        // Last but not least, stream particles in from non-existent space to the right,
-        // assuming the left-moving densities are the same as they are immediately to the left:
-/*		for (int y=0; y<ydim; y++) {
-            if (!barrier[xdim-1][y]) {
-                nW[xdim-1][y] = nW[xdim-2][y];
-                nNW[xdim-1][y] = nNW[xdim-2][y];
-                nSW[xdim-1][y] = nSW[xdim-2][y];
-                // normalize density to 1 (this seems to prevent density build-up over time):
-                double dens = n0[xdim-1][y] + nE[xdim-1][y] + nW[xdim-1][y] + nN[xdim-1][y] + nS[xdim-1][y] +
-                        nNE[xdim-1][y] + nNW[xdim-1][y] + nSE[xdim-1][y] + nSW[xdim-1][y];
-                n0[xdim-1][y] /= dens;
-                nE[xdim-1][y] /= dens;
-                nW[xdim-1][y] /= dens;
-                nN[xdim-1][y] /= dens;
-                nS[xdim-1][y] /= dens;
-                nNE[xdim-1][y] /= dens;
-                nNW[xdim-1][y] /= dens;
-                nSE[xdim-1][y] /= dens;
-                nSW[xdim-1][y] /= dens;
-            }
-        } */
     }
 
-    synchronized void advance(){
-		collide();
-		stream();
-		bounce();
-		time++;
-    }
 
-    void draw(){
+    /***************************************************************************
+    *                            - DRAW SIMULATION -                           *
+    ***************************************************************************/
+
+    @Override
+    public void draw(){
         for (int x = 0; x < xdim; x++){
             for (int y = 0; y < ydim; y++){
-                Color color = Color.WHITE;;
-                switch(mode){
-                    case BARRIER:
-                        if (barrier[x][y]) {
-        					color = Color.BLACK;
-        				}
-                        break;
-                    case SPEED:
-                        float S = Math.min((float) Math.sqrt(speed2[x][y])*3.0f, 1.0f);
-                        color = Color.getHSBColor(0.5f,1.0f,S);
-                        break;
-                    case DENSITY:
-                        float D = Math.min((float) (density[x][y]-1)*0.3f, 1.0f);
-                        color = Color.getHSBColor(0.75f,1.0f,D);
-                        break;
-                }
+                // draw speed value
+                float S = Math.min((float) Math.sqrt(speed2[x][y])*3.0f, 1.0f);
+                Color color = Color.getHSBColor(0.5f,1.0f,S);
 
                 double r = 0.5;
                 StdDraw.setPenColor(color);
                 StdDraw.filledSquare(x,y,r);
             }
         }
-    }
-
-    public void run(){
-        // control when to show to save running time
-        StdDraw.enableDoubleBuffering();
-
-        int shortDelay = 0;
-        int normalDelay = 100;
-
-        draw();
-        StdDraw.show();
-
-        int screenshotNum = 0;
-        while (true){
-
-            for (int s = 0; s < timeStepsPerFrame; s++) {
-                if (time % screenshotRate == 0){
-                    draw();
-                    StdDraw.show();
-                    screenshotNum++;
-                    // String filepath = "CFD-T" + screenshotRate + "-HD-" + screenshotNum + ".png";
-                    String filepath = "CFD-T" + time + ".png";
-                    StdDraw.save(filepath);
-                }
-                advance();
-            }
-            if(StdDraw.isKeyPressed(KeyEvent.VK_B)){
-                mode = Mode.BARRIER;
-            }else if (StdDraw.isKeyPressed(KeyEvent.VK_S)){
-                mode = Mode.SPEED;
-            }else if (StdDraw.isKeyPressed(KeyEvent.VK_D)){
-                mode = Mode.DENSITY;
-            }
-            // StdDraw.clear();
-            draw();
-            StdDraw.show();
-            StdDraw.pause(shortDelay);
-        }
-    }
-
-    /***************************************************************************
-    *                           - MODE ENUMERATION -                           *
-    ***************************************************************************/
-
-    public enum Mode {
-        BARRIER, SPEED, DENSITY
     }
 }

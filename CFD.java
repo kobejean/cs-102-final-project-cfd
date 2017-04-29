@@ -46,7 +46,6 @@ public class CFD implements Runnable {
 
     int time = 0;
     int timeStepsPerFrame = 10;
-    int screenshotRate = 250;
     Mode mode = Mode.SPEED;
 
     // Calculation short-cuts:
@@ -307,7 +306,7 @@ public class CFD implements Runnable {
                         color = Color.getHSBColor(0.75f,1.0f,D);
                         break;
                 }
-                
+
                 double r = 0.5;
                 StdDraw.setPenColor(color);
                 StdDraw.filledSquare(x,y,r);
@@ -319,7 +318,7 @@ public class CFD implements Runnable {
         // control when to show to save running time
         StdDraw.enableDoubleBuffering();
 
-        int shortDelay = 20;
+        int shortDelay = 30;
         int normalDelay = 100;
 
         draw();
@@ -329,11 +328,6 @@ public class CFD implements Runnable {
 
             for (int s = 0; s < timeStepsPerFrame; s++) {
                 advance();
-                if (time % screenshotRate == timeStepsPerFrame + 1){
-                    screenshotNum++;
-                    String filepath = "screenshots/hd-windtunnel-2/CFD-T" + screenshotRate + "-HD-" + screenshotNum + ".png";
-                    // StdDraw.save(filepath);
-                }
             }
             try {Thread.sleep(1);} catch (InterruptedException e) {}
 

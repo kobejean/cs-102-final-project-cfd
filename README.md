@@ -1,28 +1,61 @@
 # CS 102 Final Project CFD (Computational Fluid Dynamics)
 
-![alt screenshot](/screenshots/cfd-hd/CFD-T250-HD-450.png "screenshot")
+![alt screenshot](docs/media/CFD.png "screenshot")
+
+#### Making your own simulation environment
+
+To make your own simulation environment, modify
+[Template.java](src/Template.java). Don't forget to include in your workspace:
+* [StdDraw.java](src/StdDraw.java)
+* [RetinaIcon.java](src/RetinaIcon.java)
+* [Simulation.java](src/Simulation.java)
+
+Take a look at the examples for some inspiration:
+* [Example 1](#example-1)
+* [Example 2](#example-2)
+* [Example 3](#example-3)
+* [Example 4](#example-4)
+* [CFD](#cfd)
+* [CFD HD](#cfd-hd)
+
+#### Example 1
+<p align="center">
+  <img src="docs/media/Example1.gif">
+</p>
+
+Source code: [Example1.java](src/Example1.java)
+
+#### Example 2
+<p align="center">
+  <img src="docs/media/Example2.gif">
+</p>
+
+Source code: [Example2.java](src/Example2.java)
+
+#### Example 3
+<p align="center">
+  <img src="docs/media/Example3.gif">
+</p>
+
+Source code: [Example3.java](src/Example3.java)
+
+#### Example 4
+<p align="center">
+  <img src="docs/media/Example4.gif">
+</p>
+
+Source code: [Example4.java](src/Example4.java)
+
+#### CFD
+<p align="center">
+  <img src="docs/media/CFD.gif">
+</p>
+
+Source code: [CFD.java](src/CFD.java)
 
 #### CFD_HD
-[src/CFD_HD.java](src/CFD_HD.java)
+<p align="center">
+  <img src="docs/media/CFD_HD_Clip.gif">
+</p>
 
-![alt CFD](/docs/media/CFD_Preview.gif "CFD")
-
-#### Example1
-[src/Example1.java](src/Example1.java)
-
-![alt Example1](/docs/media/Example1.gif "Example1")
-
-#### Example2
-[src/Example2.java](src/Example2.java)
-
-![alt Example2](/docs/media/Example2.gif "Example2")
-
-#### Example3
-[src/Example3.java](src/Example3.java)
-
-![alt Example1](/docs/media/Example3.gif "Example3")
-
-#### Example4
-[src/Example4.java](src/Example4.java)
-
-![alt Example1](/docs/media/Example4.gif "Example4")
+Source code: [CFD_HD.java](src/CFD_HD.java)

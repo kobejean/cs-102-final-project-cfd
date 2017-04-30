@@ -27,8 +27,8 @@ public class Simulation implements Runnable {
     }
 
     /***************************************************************************
-	* METHODS                                                                 *
-	**************************************************************************/
+    * METHODS                                                                  *
+    ***************************************************************************/
 
     public void reset(){
         // to be implemented in a subclass
@@ -100,7 +100,7 @@ public class Simulation implements Runnable {
     }
 
     /***************************************************************************
-    *                        - ANIMATE STATE ENUMERATION -                        *
+    *                        - ANIMATE STATE ENUMERATION -                     *
     ***************************************************************************/
 
     public enum PlayMode {

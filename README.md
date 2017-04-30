@@ -1,4 +1,7 @@
 # CS 102 Final Project CFD (Computational Fluid Dynamics)
+[Download Project](archive/master.zip)
+
+[Download Project (with screenshots and videos)](archive/full.zip)
 
 ![alt screenshot](docs/media/CFD.png "screenshot")
 

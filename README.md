@@ -1,5 +1,5 @@
 # CS 102 Final Project CFD (Computational Fluid Dynamics)
-[Download Project (reccomended)](../../archive/master.zip)
+[Download Project (zip)](../../archive/master.zip)
 
 ![alt screenshot](docs/media/CFD.png "screenshot")
 
@@ -69,4 +69,5 @@ Source code: [CFD.java](src/CFD.java)
 
 Source code: [CFD_HD.java](src/CFD_HD.java)
 
-If you would like to download the full project including the screenshots and videos click this link: [Download Full Project](../../archive/full.zip) Just note that it is a large file.
+#### Final Notes
+If you would like to download the full project including the screenshots and videos click this link: [Download Full Project (zip)](../../archive/full.zip) Just note that it is a large file.

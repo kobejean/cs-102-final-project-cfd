@@ -88,8 +88,9 @@ public class Simulation implements Runnable {
             if (time % screenshotRate == 0 && shouldTakeScreenshots){
                 draw();
                 StdDraw.show();
-                // String st = String.format("%08d", time);
-                String filepath = screenshotName + "-T" + time + ".png";
+                // String st = String.format("%03d", time);
+                String st = ""+ time;
+                String filepath = screenshotName + "-T" + st + ".png";
                 StdDraw.save(filepath);
             }
             advance();

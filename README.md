@@ -2,32 +2,60 @@
 
 ![alt screenshot](docs/media/CFD.png "screenshot")
 
-#### Example1
+#### Making your own simulation environment
+
+To make your own simulation environment, modify
+[Template.java](src/Template.java). Don't forget to include in your workspace:
+* [StdDraw.java](src/StdDraw.java)
+* [RetinaIcon.java](src/RetinaIcon.java)
+* [Simulation.java](src/Simulation.java)
+
+Take a look at the examples for some inspiration:
+* [Example 1](#Example 1)
+* [Example 2](#Example 2)
+* [Example 3](#Example 3)
+* [Example 4](#Example 4)
+* [CFD](#CFD)
+* [CFD HD](#CFD HD)
+
+#### Example 1
 <p align="center">
   <img src="docs/media/Example1.gif">
 </p>
-[src/Example1.java](src/Example1.java)
 
-#### Example2
+Source code: [Example1.java](src/Example1.java)
+
+#### Example 2
 <p align="center">
   <img src="docs/media/Example2.gif">
 </p>
-[src/Example2.java](src/Example2.java)
 
-#### Example3
+Source code: [Example2.java](src/Example2.java)
+
+#### Example 3
 <p align="center">
   <img src="docs/media/Example3.gif">
 </p>
-[src/Example3.java](src/Example3.java)
 
-#### Example4
+Source code: [Example3.java](src/Example3.java)
+
+#### Example 4
 <p align="center">
   <img src="docs/media/Example4.gif">
 </p>
-[src/Example4.java](src/Example4.java)
+
+Source code: [Example4.java](src/Example4.java)
+
+#### CFD
+<p align="center">
+  <img src="docs/media/CFD.gif">
+</p>
+
+Source code: [CFD.java](src/CFD.java)
 
 #### CFD_HD
 <p align="center">
-  <img src="docs/media/CFD_Preview.gif">
+  <img src="docs/media/CFD_HD_Clip.gif">
 </p>
-[src/CFD_HD.java](src/CFD_HD.java)
+
+Source code: [CFD_HD.java](src/CFD_HD.java)

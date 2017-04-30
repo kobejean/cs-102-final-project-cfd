@@ -114,8 +114,8 @@ public class CFD_HD extends Simulation {
     }
 
     /***************************************************************************
-	*                            - RESET SIMULATION -                          *
-	***************************************************************************/
+    *                            - RESET SIMULATION -                          *
+    ***************************************************************************/
 
     @Override
     public void reset(){
@@ -141,70 +141,70 @@ public class CFD_HD extends Simulation {
                     xvel[x][y] = 0;
                     yvel[x][y] = 0;
                     speed2[x][y] = 0;
-				} else {
+                } else {
                     double v = velocity;
-					n0[x][y]  = four9ths * (1 - 1.5*v*v);
-					nE[x][y]  =   one9th * (1 + 3*v + 3*v*v);
-					nW[x][y]  =   one9th * (1 - 3*v + 3*v*v);
-					nN[x][y]  =   one9th * (1 - 1.5*v*v);
-					nS[x][y]  =   one9th * (1 - 1.5*v*v);
-					nNE[x][y] =  one36th * (1 + 3*v + 3*v*v);
-					nSE[x][y] =  one36th * (1 + 3*v + 3*v*v);
-					nNW[x][y] =  one36th * (1 - 3*v + 3*v*v);
-					nSW[x][y] =  one36th * (1 - 3*v + 3*v*v);
-					density[x][y] = 1;
-					xvel[x][y] = v;
-					yvel[x][y] = 0;
-					speed2[x][y] = v*v;
-				}
+                    n0[x][y]  = four9ths * (1 - 1.5*v*v);
+                    nE[x][y]  =   one9th * (1 + 3*v + 3*v*v);
+                    nW[x][y]  =   one9th * (1 - 3*v + 3*v*v);
+                    nN[x][y]  =   one9th * (1 - 1.5*v*v);
+                    nS[x][y]  =   one9th * (1 - 1.5*v*v);
+                    nNE[x][y] =  one36th * (1 + 3*v + 3*v*v);
+                    nSE[x][y] =  one36th * (1 + 3*v + 3*v*v);
+                    nNW[x][y] =  one36th * (1 - 3*v + 3*v*v);
+                    nSW[x][y] =  one36th * (1 - 3*v + 3*v*v);
+                    density[x][y] = 1;
+                    xvel[x][y] = v;
+                    yvel[x][y] = 0;
+                    speed2[x][y] = v*v;
+                }
             }
         }
     }
 
 
     /***************************************************************************
-	*                          - ADVANCE SIMULATION -                          *
-	***************************************************************************/
+    *                          - ADVANCE SIMULATION -                          *
+    ***************************************************************************/
 
     @Override
     synchronized public void advance(){
-		collide();
-		stream();
-		bounce();
+        collide();
+        stream();
+        bounce();
     }
 
 
     /***************************************************************************
-	*                               - COLLIDE -                                *
+    *                               - COLLIDE -                                *
     * Collide particles within each cell.  Adapted from Wagner's D2Q9 code.    *
     * From: http://physics.weber.edu/schroeder/fluids/                         *
-	***************************************************************************/
+    ***************************************************************************/
 
     void collide() {
         double n, one9thn, one36thn, vx, vy, vx2, vy2, vx3, vy3, vxvy2, v2, v215;
-        double omega = 1 / (3*viscocity + 0.5);	// reciprocal of tau, the relaxation time
+        double omega = 1 / (3*viscocity + 0.5);    // reciprocal of tau, the relaxation time
         for (int x = 0; x < xdim; x++){
             for (int y = 0; y < ydim; y++){
                 if (!barrier[x][y]) {
                     n = n0[x][y] + nN[x][y] + nS[x][y] + nE[x][y] + nW[x][y] + nNW[x][y] + nNE[x][y] + nSW[x][y] + nSE[x][y];
-                    density[x][y] = n;		// macroscopic density may be needed for plotting
+                    density[x][y] = n;        // macroscopic density may be needed for plotting
                     one9thn = one9th * n;
                     one36thn = one36th * n;
                     if (n > 0) {
                         vx = (nE[x][y] + nNE[x][y] + nSE[x][y] - nW[x][y] - nNW[x][y] - nSW[x][y]) / n;
                     } else vx = 0;
-                    xvel[x][y] = vx;		// may be needed for plotting
+                    xvel[x][y] = vx;        // may be needed for plotting
                     if (n > 0) {
                         vy = (nN[x][y] + nNE[x][y] + nNW[x][y] - nS[x][y] - nSE[x][y] - nSW[x][y]) / n;
                     } else vy = 0;
-                    yvel[x][y] = vy;		// may be needed for plotting
+                    yvel[x][y] = vy;        // may be needed for plotting
                     vx3 = 3 * vx;
                     vy3 = 3 * vy;
                     vx2 = vx * vx;
                     vy2 = vy * vy;
                     vxvy2 = 2 * vx * vy;
                     v2 = vx2 + vy2;
-                    speed2[x][y] = v2;		// may be needed for plotting
+                    speed2[x][y] = v2;        // may be needed for plotting
                     v215 = 1.5 * v2;
                     n0[x][y]  += omega * (four9ths*n * (1                              - v215) - n0[x][y]);
                     nE[x][y]  += omega * (   one9thn * (1 + vx3       + 4.5*vx2        - v215) - nE[x][y]);
@@ -222,33 +222,33 @@ public class CFD_HD extends Simulation {
 
 
     /***************************************************************************
-	*                               - STREAM -                                 *
+    *                               - STREAM -                                 *
     * Stream particles into neighboring cells                                  *
     * From: http://physics.weber.edu/schroeder/fluids/                         *
-	***************************************************************************/
+    ***************************************************************************/
     void stream() {
-        for (int x=0; x<xdim-1; x++) {		// first start in NW corner...
+        for (int x=0; x<xdim-1; x++) {        // first start in NW corner...
             for (int y=ydim-1; y>0; y--) {
-                nN[x][y] = nN[x][y-1];		// move the north-moving particles
-                nNW[x][y] = nNW[x+1][y-1];	// and the northwest-moving particles
+                nN[x][y] = nN[x][y-1];        // move the north-moving particles
+                nNW[x][y] = nNW[x+1][y-1];    // and the northwest-moving particles
             }
         }
-        for (int x=xdim-1; x>0; x--) {		// now start in NE corner...
+        for (int x=xdim-1; x>0; x--) {        // now start in NE corner...
             for (int y=ydim-1; y>0; y--) {
-                nE[x][y] = nE[x-1][y];		// move the east-moving particles
-                nNE[x][y] = nNE[x-1][y-1];	// and the northeast-moving particles
+                nE[x][y] = nE[x-1][y];        // move the east-moving particles
+                nNE[x][y] = nNE[x-1][y-1];    // and the northeast-moving particles
             }
         }
-        for (int x=xdim-1; x>0; x--) {		// now start in SE corner...
+        for (int x=xdim-1; x>0; x--) {        // now start in SE corner...
             for (int y=0; y<ydim-1; y++) {
-                nS[x][y] = nS[x][y+1];		// move the south-moving particles
-                nSE[x][y] = nSE[x-1][y+1];	// and the southeast-moving particles
+                nS[x][y] = nS[x][y+1];        // move the south-moving particles
+                nSE[x][y] = nSE[x-1][y+1];    // and the southeast-moving particles
             }
         }
-        for (int x=0; x<xdim-1; x++) {		// now start in the SW corner...
+        for (int x=0; x<xdim-1; x++) {        // now start in the SW corner...
             for (int y=0; y<ydim-1; y++) {
-                nW[x][y] = nW[x+1][y];		// move the west-moving particles
-                nSW[x][y] = nSW[x+1][y+1];	// and the southwest-moving particles
+                nW[x][y] = nW[x+1][y];        // move the west-moving particles
+                nSW[x][y] = nSW[x+1][y+1];    // and the southwest-moving particles
             }
         }
         // We missed a few at the left and right edges:

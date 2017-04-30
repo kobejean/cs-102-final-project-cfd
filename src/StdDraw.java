@@ -658,22 +658,22 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 
     public static boolean isRetina() {
 
-    	boolean isRetina = false;
-    	GraphicsDevice graphicsDevice = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+        boolean isRetina = false;
+        GraphicsDevice graphicsDevice = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 
-    	try {
-    		Field field = graphicsDevice.getClass().getDeclaredField("scale");
-    		if (field != null) {
-    			field.setAccessible(true);
-    			Object scale = field.get(graphicsDevice);
-    			if(scale instanceof Integer && ((Integer) scale).intValue() == 2) {
-    				isRetina = true;
-    			}
-    		}
-    	} catch (Exception e) {
-    		e.printStackTrace();
-    	}
-    	return isRetina;
+        try {
+            Field field = graphicsDevice.getClass().getDeclaredField("scale");
+            if (field != null) {
+                field.setAccessible(true);
+                Object scale = field.get(graphicsDevice);
+                if(scale instanceof Integer && ((Integer) scale).intValue() == 2) {
+                    isRetina = true;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return isRetina;
     }
 
     public static void setRetinaScale(){

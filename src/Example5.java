@@ -91,7 +91,7 @@ public class Example5 extends Simulation {
         simulation.timeStepsPerFrame = 1;
         simulation.screenshotRate = 1;
         simulation.screenshotName = "Example5";
-        simulation.shouldTakeScreenshots = true;
+        simulation.shouldTakeScreenshots = false;
 
         // messege to user
         String message = "Pressable keys:\n" +
@@ -114,16 +114,6 @@ public class Example5 extends Simulation {
         // Initial conditions
         for (int x = 0; x < xdim; x++){
             for (int y = 0; y < ydim; y++){
-                // n0[x][y] = 0;
-                // nE[x][y] = 0;
-                // nW[x][y] = 0;
-                // nN[x][y] = 0;
-                // nS[x][y] = 0;
-                // nNE[x][y] = 0;
-                // nNW[x][y] = 0;
-                // nSE[x][y] = 0;
-                // nSW[x][y] = 0;
-
                 n0[x][y]  = four9ths;
                 nE[x][y]  =   one9th;
                 nW[x][y]  =   one9th;

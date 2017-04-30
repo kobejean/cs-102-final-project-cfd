@@ -15,6 +15,7 @@ Take a look at the examples for some inspiration:
 * [Example 2](#example-2)
 * [Example 3](#example-3)
 * [Example 4](#example-4)
+* [Example 5](#example-5)
 * [CFD](#cfd)
 * [CFD HD](#cfd-hd)
 
@@ -45,6 +46,13 @@ Source code: [Example3.java](src/Example3.java)
 </p>
 
 Source code: [Example4.java](src/Example4.java)
+
+#### Example 5
+<p align="center">
+  <img src="docs/media/Example5.gif">
+</p>
+
+Source code: [Example5.java](src/Example5.java)
 
 #### CFD
 <p align="center">

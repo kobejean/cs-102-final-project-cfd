@@ -94,7 +94,7 @@ public class CFD extends Simulation {
         simulation.timeStepsPerFrame = 50;
         simulation.screenshotRate = 50;
         simulation.screenshotName = "CFD";
-        simulation.shouldTakeScreenshots = true;
+        simulation.shouldTakeScreenshots = false;
 
         // messege to user
         String message = "Pressable keys:\n" +

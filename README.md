@@ -1,28 +1,33 @@
 # CS 102 Final Project CFD (Computational Fluid Dynamics)
 
-![alt screenshot](/screenshots/cfd-hd/CFD-T250-HD-450.png "screenshot")
-
-#### CFD_HD
-[src/CFD_HD.java](src/CFD_HD.java)
-
-![alt CFD](/docs/media/CFD_Preview.gif "CFD")
+![alt screenshot](docs/media/CFD.png "screenshot")
 
 #### Example1
+<p align="center">
+  <img src="docs/media/Example1.gif">
+</p>
 [src/Example1.java](src/Example1.java)
 
-![alt Example1](/docs/media/Example1.gif "Example1")
-
 #### Example2
+<p align="center">
+  <img src="docs/media/Example2.gif">
+</p>
 [src/Example2.java](src/Example2.java)
 
-![alt Example2](/docs/media/Example2.gif "Example2")
-
 #### Example3
+<p align="center">
+  <img src="docs/media/Example3.gif">
+</p>
 [src/Example3.java](src/Example3.java)
 
-![alt Example1](/docs/media/Example3.gif "Example3")
-
 #### Example4
+<p align="center">
+  <img src="docs/media/Example4.gif">
+</p>
 [src/Example4.java](src/Example4.java)
 
-![alt Example1](/docs/media/Example4.gif "Example4")
+#### CFD_HD
+<p align="center">
+  <img src="docs/media/CFD_Preview.gif">
+</p>
+[src/CFD_HD.java](src/CFD_HD.java)

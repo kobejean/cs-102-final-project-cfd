@@ -11,12 +11,12 @@ To make your own simulation environment, modify
 * [Simulation.java](src/Simulation.java)
 
 Take a look at the examples for some inspiration:
-* [Example 1](#Example-1)
-* [Example 2](#Example-2)
-* [Example 3](#Example-3)
-* [Example 4](#Example-4)
-* [CFD](#CFD)
-* [CFD HD](#CFD-HD)
+* [Example 1](#example-1)
+* [Example 2](#example-2)
+* [Example 3](#example-3)
+* [Example 4](#example-4)
+* [CFD](#cfd)
+* [CFD HD](#cfd-hd)
 
 #### Example 1
 <p align="center">

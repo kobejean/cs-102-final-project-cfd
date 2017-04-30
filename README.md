@@ -53,7 +53,7 @@ Source code: [Example4.java](src/Example4.java)
 
 Source code: [CFD.java](src/CFD.java)
 
-#### CFD_HD
+#### CFD HD
 <p align="center">
   <img src="docs/media/CFD_HD_Clip.gif">
 </p>

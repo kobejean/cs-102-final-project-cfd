@@ -39,7 +39,7 @@ public class CFD extends Simulation {
     *                                - DIMENTIONS -                            *
     ***************************************************************************/
     // simulation canvas size
-    static int width = 1200, height = 480;
+    static int width = 200, height = 80;
     // number of data points / pixels per dimention
     static int xdim = 200, ydim = 80;
     // static int xdim = 4800, ydim = 1920; // HD
@@ -90,11 +90,11 @@ public class CFD extends Simulation {
     public static void main(String[] args) {
         CFD simulation = new CFD();
         simulation.setDimentions(width, height, xdim, ydim);
-        simulation.frameDelay = 30;
-        simulation.timeStepsPerFrame = 10;
-        simulation.screenshotRate = 250;
+        simulation.frameDelay = 0;
+        simulation.timeStepsPerFrame = 50;
+        simulation.screenshotRate = 50;
         simulation.screenshotName = "CFD";
-        simulation.shouldTakeScreenshots = false;
+        simulation.shouldTakeScreenshots = true;
 
         // messege to user
         String message = "Pressable keys:\n" +

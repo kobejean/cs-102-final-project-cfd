@@ -1,51 +1,20 @@
 /*
-Adapted from: http://stackoverflow.com/questions/12431148/swing-and-bitmaps-on-retina-displays
+RetinaIcon
+
+DESCRIPTION: A subclass of ImageIcon that supports retina displays
+ADAPTED FROM: http://stackoverflow.com/questions/12431148/swing-and-bitmaps-on-retina-displays
+PROGRAMMED BY: Jean Flaherty
 */
-// import java.awt.BasicStroke;
-// import java.awt.Color;
-// import java.awt.FileDialog;
-// import java.awt.Font;
-// import java.awt.FontMetrics;
+
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.ImageObserver;
-// import java.awt.MediaTracker;
-// import java.awt.RenderingHints;
-// import java.awt.Toolkit;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Graphics;
 import java.awt.Component;
 
-// import java.awt.geom.Arc2D;
-// import java.awt.geom.Ellipse2D;
-// import java.awt.geom.GeneralPath;
-// import java.awt.geom.Line2D;
-// import java.awt.geom.Rectangle2D;
-// import java.awt.geom.AffineTransform;
-
-// import java.awt.image.BufferedImage;
-// import java.awt.image.DirectColorModel;
-// import java.awt.image.WritableRaster;
-
-// import java.io.File;
-// import java.io.IOException;
-//
-// import java.net.MalformedURLException;
-// import java.net.URL;
-
-// import java.util.LinkedList;
-// import java.util.TreeSet;
-// import java.util.NoSuchElementException;
-// import javax.imageio.ImageIO;
-
 import javax.swing.ImageIcon;
-// import javax.swing.JFrame;
-// import javax.swing.JLabel;
-// import javax.swing.JMenu;
-// import javax.swing.JMenuBar;
-// import javax.swing.JMenuItem;
-// import javax.swing.KeyStroke;
 
 import java.lang.reflect.Field;
 

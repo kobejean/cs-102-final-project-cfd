@@ -1,5 +1,5 @@
 /*******************************************************************************
-*                                   - CFD -                                    *
+*                                 - CFD HD -                                   *
 *                                                                              *
 * PROGRAMMER:  Jean Flaherty  04/29/17                                         *
 * CLASS:  CS102                                                                *
@@ -9,6 +9,11 @@
 * DESCRIPTION:                                                                 *
 * This program simulates fluid dynamics using Lattice Boltzman Methods.        *
 * The math/physics was adapted from http://physics.weber.edu/schroeder/fluids/ *
+* The program takes a long time to run because the dimentions are set to       *
+* 480x1920. Staring at the screeen is like watching paint dry so this program  *
+* will take screen shots every 250 time steps so that you can view a sort of   *
+* timelapse version after a good deal of time passes. It took me a day and a   *
+* half to have enough screenshots to make the demo video.                      *
 *                                                                              *
 * EXTERNAL FILES:                                                              *
 * - StdDraw.java                                                               *
@@ -33,7 +38,7 @@ import java.lang.Math;
 import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 
-public class CFD extends Simulation {
+public class CFD_HD extends Simulation {
 
     /***************************************************************************
     *                                - DIMENTIONS -                            *
@@ -41,12 +46,12 @@ public class CFD extends Simulation {
     // simulation canvas size
     static int width = 1200, height = 480;
     // number of data points / pixels per dimention
-    static int xdim = 200, ydim = 80;
-    // static int xdim = 4800, ydim = 1920; // HD
+    static int xdim = 4800, ydim = 1920; // HD
     // static int xdim = 2400, ydim = 960;
     // static int xdim = 1200, ydim = 480;
     // static int xdim = 600, ydim = 240;
     // static int xdim = 400, ydim = 160;
+    // static int xdim = 200, ydim = 80;
     // static int xdim = 100, ydim = 40;
 
     /***************************************************************************
@@ -88,19 +93,19 @@ public class CFD extends Simulation {
     ***************************************************************************/
 
     public static void main(String[] args) {
-        CFD simulation = new CFD();
+        CFD_HD simulation = new CFD_HD();
         simulation.setDimentions(width, height, xdim, ydim);
-        simulation.frameDelay = 30;
+        simulation.frameDelay = 0; // will be super slow anyway
         simulation.timeStepsPerFrame = 10;
         simulation.screenshotRate = 250;
-        simulation.screenshotName = "CFD";
-        simulation.shouldTakeScreenshots = false;
+        simulation.screenshotName = "CFD-HD";
+        simulation.shouldTakeScreenshots = true;
 
         // messege to user
-        String message = "Pressable keys:\n" +
-        "   (A) Animate - plays the simulation\n" +
-        "   (C) Click through - click to advance to next frame\n" +
-        "   (R) Reset - resets the simulation\n";
+        String message = "Note this program takes a long time to run. \n"+
+        "It takes roughly 3 mins to produce a screenshot. For the demo video,\n"+
+        "it took me a day and a half to get all the screenshots. For a \n" +
+        "real time simulation try running CFD.java.";
         JOptionPane.showMessageDialog(null, message);
 
         // Now start the simulation thread:
@@ -330,6 +335,7 @@ public class CFD extends Simulation {
     public void draw(){
         for (int x = 0; x < xdim; x++){
             for (int y = 0; y < ydim; y++){
+                // draw speed value
                 float S = Math.min((float) Math.sqrt(speed2[x][y])*3.0f, 1.0f);
                 Color color = Color.getHSBColor(0.5f,1.0f,S);
 

@@ -1,7 +1,7 @@
 /******************************************************************************
  *  Compilation:  javac StdDraw.java
  *  Execution:    java StdDraw
- *  Dependencies: none
+ *  Dependencies: RetinaIcon.java
  *
  *  Standard drawing library. This class provides a basic capability for
  *  creating drawings with your programs. It uses a simple graphics model that
@@ -14,6 +14,7 @@
  *    -  don't use AffineTransform for rescaling since it inverts
  *       images and strings
  *
+ * Modified by Jean Flaherty to work with retina displays
  ******************************************************************************/
 
 import java.awt.BasicStroke;

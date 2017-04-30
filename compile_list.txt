@@ -1,4 +1,10 @@
 src/StdDraw.java
 src/RetinaIcon.java
-src/ProofOfConceptCFD.java
+src/ProofOfConcept.java
 src/CFD.java
+src/CFD_HD.java
+src/Example1.java
+src/Example2.java
+src/Example3.java
+src/Example4.java
+src/Simulation.java

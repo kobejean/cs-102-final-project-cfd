@@ -72,7 +72,7 @@ public class Example4 extends Simulation {
         simulation.timeStepsPerFrame = 1;
         simulation.screenshotRate = 1;
         simulation.screenshotName = "Example4";
-        simulation.shouldTakeScreenshots = true;
+        simulation.shouldTakeScreenshots = false;
 
         // messege to user
         String message = "Pressable keys:\n" +

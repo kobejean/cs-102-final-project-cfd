@@ -39,7 +39,7 @@ public class CFD extends Simulation {
     *                                - DIMENTIONS -                            *
     ***************************************************************************/
     // simulation canvas size
-    static int width = 200, height = 80;
+    static int width = 1200, height = 480;
     // number of data points / pixels per dimention
     static int xdim = 200, ydim = 80;
     // static int xdim = 4800, ydim = 1920; // HD

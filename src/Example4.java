@@ -28,8 +28,6 @@
 
 import java.awt.Color;
 import java.lang.Math;
-import java.awt.event.KeyEvent;
-import java.util.Random;
 import javax.swing.JOptionPane;
 
 public class Example4 extends Simulation {
@@ -93,6 +91,13 @@ public class Example4 extends Simulation {
     @Override
     public void reset(){
         // Initial conditions
+        // Start by setting everything to empty
+        for (int x = 0; x < xdim; x++){
+            for (int y = 0; y < ydim; y++){
+                S[x][y] = State.EMPTY_SPACE;
+            }
+        }
+
         // Add side walls and particles
         for (int y = 0; y < ydim; y++){
             int left_x = 0;
@@ -103,12 +108,6 @@ public class Example4 extends Simulation {
             S[left_x][y] = State.BARRIER;
             S[right_x][y] = State.BARRIER;
             S[rand_x][y] = State.LEFT_PARTICLE;
-
-            for (int x = 0; x < xdim; x++){
-                if (S[x][y] == null){
-                    S[x][y] = State.EMPTY_SPACE;
-                }
-            }
         }
 
         // Uncomment this to include a circular barrier in the middle

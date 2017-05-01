@@ -17,48 +17,13 @@ To make your own simulation environment, modify
 
 Take a look at the examples for some inspiration:
 
-<div align="center" style="display:inline-block;padding-bottom: 10px;">
-    <a href="#example-1">
-        <img src="docs/media/example1.gif" width="200" height="80"> </br>
-        Example 1
-    </a>
-</div>
-<div align="center" style="display:inline-block;padding-bottom: 10px;">
-    <a href="#example-2">
-        <img src="docs/media/example2.gif" width="200" height="80"> </br>
-        Example 2
-    </a>
-</div>
-<div align="center" style="display:inline-block;padding-bottom: 10px;">
-    <a href="#example-3">
-        <img src="docs/media/example3.gif" width="200" height="80"> </br>
-        Example 3
-    </a>
-</div>
-<div align="center" style="display:inline-block;padding-bottom: 10px;">
-    <a href="#example-4">
-        <img src="docs/media/example4.gif" width="200" height="80"> </br>
-        Example 4
-    </a>
-</div>
-<div align="center" style="display:inline-block;padding-bottom: 10px;">
-    <a href="#example-5">
-        <img src="docs/media/example5.gif" width="200" height="80"> </br>
-        Example 5
-    </a>
-</div>
-<div align="center" style="display:inline-block;padding-bottom: 10px;">
-    <a href="#cfd">
-        <img src="docs/media/cfd.gif" width="200" height="80"> </br>
-        CFD
-    </a>
-</div>
-<div align="center" style="display:inline-block;padding-bottom: 10px;">
-    <a href="#cfd-hd">
-        <img src="docs/media/cfd_hd_clip.gif" width="200" height="80"> </br>
-        CFD HD
-    </a>
-</div>
+<a href="#example-1"><img src="docs/media/example1.gif" width="200" height="80"></a>
+<a href="#example-2"><img src="docs/media/example2.gif" width="200" height="80"></a>
+<a href="#example-3"><img src="docs/media/example3.gif" width="200" height="80"></a>
+<a href="#example-4"><img src="docs/media/example4.gif" width="200" height="80"></a>
+<a href="#example-5"><img src="docs/media/example5.gif" width="200" height="80"></a>
+<a href="#cfd"><img src="docs/media/cfd.gif" width="200" height="80"></a>
+<a href="#cfd-hd"><img src="docs/media/cfd_hd_clip.gif" width="200" height="80"></a>
 
 ### Example 1
 <p align="center">

@@ -1,9 +1,12 @@
 # CS 102 Final Project CFD (Computational Fluid Dynamics)
 [Download Project (zip)](../../archive/master.zip)
 
-![alt screenshot](docs/media/CFD.png "screenshot")
+<p align="center">
+<a href="https://vimeo.com/215361841" target="_blank"><!--_--><img src="docs/media/cfd_thumb.png"
+alt="vimeo"/></a>
+</p>
 
-## Making your own simulation environment
+### Making your own simulation environment
 
 To make your own simulation environment, modify
 [Template.java](src/Template.java). Don't forget to include in your workspace:
@@ -20,12 +23,12 @@ Take a look at the examples for some inspiration:
 * [CFD](#cfd)
 * [CFD HD](#cfd-hd)
 
-## Example 1
+### Example 1
 <p align="center">
-  <img src="docs/media/Example1.gif" width="400" height="160">
+  <img src="docs/media/example1.gif" width="400" height="160">
 </p>
 
-This is a simple simulation that has only one valiable that determines the brightness of a pixel: 
+This is a simple simulation that has only one variable that determines the brightness of a pixel:
 
 ```java
 double B[][] = new double[xdim][ydim];
@@ -52,47 +55,47 @@ Color color = Color.getHSBColor(1.0f,0.0f,b);
 
 Source code: [Example1.java](src/Example1.java)
 
-## Example 2
+### Example 2
 <p align="center">
-  <img src="docs/media/Example2.gif" width="400" height="160">
+  <img src="docs/media/example2.gif" width="400" height="160">
 </p>
 
 Source code: [Example2.java](src/Example2.java)
 
-## Example 3
+### Example 3
 <p align="center">
-  <img src="docs/media/Example3.gif" width="400" height="160">
+  <img src="docs/media/example3.gif" width="400" height="160">
 </p>
 
 Source code: [Example3.java](src/Example3.java)
 
-## Example 4
+### Example 4
 <p align="center">
-  <img src="docs/media/Example4.gif" width="400" height="160">
+  <img src="docs/media/example4.gif" width="400" height="160">
 </p>
 
 Source code: [Example4.java](src/Example4.java)
 
-## Example 5
+### Example 5
 <p align="center">
-  <img src="docs/media/Example5.gif" width="400" height="160">
+  <img src="docs/media/example5.gif" width="400" height="160">
 </p>
 
 Source code: [Example5.java](src/Example5.java)
 
-## CFD
+### CFD
 <p align="center">
-  <img src="docs/media/CFD.gif" width="400" height="160">
+  <img src="docs/media/cfd.gif" width="400" height="160">
 </p>
 
 Source code: [CFD.java](src/CFD.java)
 
-## CFD HD
+### CFD HD
 <p align="center">
-  <img src="docs/media/CFD_HD_Clip.gif" width="400" height="160">
+  <img src="docs/media/cfd_hd_clip.gif" width="400" height="160">
 </p>
 
 Source code: [CFD_HD.java](src/CFD_HD.java)
 
-## Final Notes
+### Final Notes
 If you would like to download the full project including the screenshots and videos click this link: [Download Full Project (zip)](../../archive/full.zip) Just note that it is a large file.

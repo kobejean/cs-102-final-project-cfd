@@ -7,6 +7,17 @@
 
 The math and physics was adapted from http://physics.weber.edu/schroeder/fluids/. They have an online CFD program, the source code in multiple programming languages, and even a [pdf file](http://physics.weber.edu/schroeder/javacourse/LatticeBoltzmann.pdf) that goes into detail how it works so if you are interested in CFD I reccomend checking it out.
 
+### Table of contents
+* [Making your own simulation environment](#making-your-own-simulation-environment)
+* [Example 1](#example-1)
+* [Example 2](#example-2)
+* [Example 3](#example-3)
+* [Example 4](#example-4)
+* [Example 5](#example-5)
+* [CFD](#cfd)
+* [CFD HD](#cfd-hd)
+* [Final Notes](#final-notes)
+
 ### Making your own simulation environment
 
 To make your own simulation environment, modify
@@ -16,13 +27,14 @@ To make your own simulation environment, modify
 * [Simulation.java](src/Simulation.java)
 
 Take a look at the examples for some inspiration:
-* [Example 1](#example-1)
-* [Example 2](#example-2)
-* [Example 3](#example-3)
-* [Example 4](#example-4)
-* [Example 5](#example-5)
-* [CFD](#cfd)
-* [CFD HD](#cfd-hd)
+
+<a href="#example-1"><img src="docs/media/example1.gif" width="200" height="80"></a>
+<a href="#example-2"><img src="docs/media/example2.gif" width="200" height="80"></a>
+<a href="#example-3"><img src="docs/media/example3.gif" width="200" height="80"></a>
+<a href="#example-4"><img src="docs/media/example4.gif" width="200" height="80"></a>
+<a href="#example-5"><img src="docs/media/example5.gif" width="200" height="80"></a>
+<a href="#cfd"><img src="docs/media/cfd.gif" width="200" height="80"></a>
+<a href="#cfd-hd"><img src="docs/media/cfd_hd_clip.gif" width="200" height="80"></a>
 
 ### Example 1
 <p align="center">

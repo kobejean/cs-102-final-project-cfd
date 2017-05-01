@@ -2,8 +2,7 @@
 [Download Project (zip)](../../archive/master.zip)
 
 <p align="center">
-<a href="https://vimeo.com/215361841" target="_blank"><!--_--><img src="docs/media/cfd_thumb.png"
-alt="vimeo"/></a>
+    <a href="https://drive.google.com/open?id=0By-CMfnYF6bZUVFIZG5GWFF3YVU"><img src="docs/media/cfd_thumb.png" alt="vimeo"/></a>
 </p>
 
 ### Making your own simulation environment
@@ -98,4 +97,4 @@ Source code: [CFD.java](src/CFD.java)
 Source code: [CFD_HD.java](src/CFD_HD.java)
 
 ### Final Notes
-If you would like to download the full project including the screenshots and videos click this link: [Download Full Project (zip)](../../archive/full.zip) Just note that it is a large file.
+If you would like to download the full project including the screenshots and videos click this link: [Download Full Project (zip)](../../archive/full.zip). Just note that it is a large file.

@@ -88,12 +88,14 @@ public class Example2 extends Simulation {
         for (int x = 0; x < xdim; x++){
             for (int y = 0; y < ydim; y++){
                 // make a circlular pattern
+                // translate into coordinate relative to center
                 int relx = xdim/2 - x;
                 int rely = ydim/2 - y;
                 // distance from center
                 double dist =  Math.sqrt(relx*relx + rely*rely);
-                double max_dist = Math.sqrt(xdim*xdim + ydim*ydim);
-                H[x][y] = (dist / max_dist) % 1.0;
+                // diagonal of canvas for a good scale
+                double diagonal = Math.sqrt(xdim*xdim + ydim*ydim);
+                H[x][y] = (dist / diagonal) % 1.0;
             }
         }
     }

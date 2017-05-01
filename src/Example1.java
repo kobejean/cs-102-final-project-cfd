@@ -28,8 +28,6 @@
 
 import java.awt.Color;
 import java.lang.Math;
-import java.awt.event.KeyEvent;
-import java.util.Random;
 import javax.swing.JOptionPane;
 
 public class Example1 extends Simulation {

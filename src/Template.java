@@ -1,13 +1,8 @@
 /*******************************************************************************
 *                                 - Template -                                 *
 *                                                                              *
-* PROGRAMMER:  Jean Flaherty  04/29/17                                         *
-* CLASS:  CS102                                                                *
-* SEMESTER:  Spring, 2017                                                      *
-* INSTRUCTOR:  Dean Zeller                                                     *
-*                                                                              *
+* PROGRAMMER:                                                                  *
 * DESCRIPTION:                                                                 *
-* This program show a simple example of how a physics simulation works.        *
 *                                                                              *
 * EXTERNAL FILES:                                                              *
 * - StdDraw.java                                                               *
@@ -22,14 +17,11 @@
 * using this verion of StdDraw. However the original StdDraw.java should work  *
 * as well. It can be found at http://introcs.cs.princeton.edu/java/stdlib/     *
 *                                                                              *
-* CREDITS:                                                                     *
-* This program is copyright (c) 2017 Jean Flaherty.                            *
+* Template by Jean Flaherty.                                                   *
 *******************************************************************************/
 
 import java.awt.Color;
 import java.lang.Math;
-import java.awt.event.KeyEvent;
-import java.util.Random;
 import javax.swing.JOptionPane;
 
 public class Template extends Simulation {
@@ -72,7 +64,7 @@ public class Template extends Simulation {
         simulation.screenshotName = "Template";
         simulation.shouldTakeScreenshots = false;
 
-        // messege to user
+        // // messege to user
         // String message = "Pressable keys:\n" +
         // "   (A) Animate - plays the simulation\n" +
         // "   (C) Click through - click to advance to next frame\n" +

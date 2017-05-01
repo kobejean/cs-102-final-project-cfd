@@ -179,7 +179,7 @@ Take a look at the source code for a detailed look: [Example4.java](src/Example4
 
 Source code: [Example5.java](src/Example5.java)
 
-In this example we have what looks like ripples on a surface of water. At this point we half of the CFD working. There are two methods that make the ripples happen `collide()` and `stream()`.
+In this example we have what looks like ripples on a surface of water. At this point we have half of the CFD working. There are two methods that make the ripples happen `collide()` and `stream()`.
 
 ### CFD
 <p align="center">

@@ -7,6 +7,17 @@
 
 The math and physics was adapted from http://physics.weber.edu/schroeder/fluids/. They have an online CFD program, the source code in multiple programming languages, and even a [pdf file](http://physics.weber.edu/schroeder/javacourse/LatticeBoltzmann.pdf) that goes into detail how it works so if you are interested in CFD I reccomend checking it out.
 
+### Table of contents
+* [Making your own simulation environment](#making-your-own-simulation-environment)
+* [Example 1](#example-1)
+* [Example 2](#example-2)
+* [Example 3](#example-3)
+* [Example 4](#example-4)
+* [Example 5](#example-5)
+* [CFD](#cfd)
+* [CFD HD](#cfd-hd)
+* [Final Notes](#final-notes)
+
 ### Making your own simulation environment
 
 To make your own simulation environment, modify

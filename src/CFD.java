@@ -30,7 +30,6 @@
 
 import java.awt.Color;
 import java.lang.Math;
-import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 
 public class CFD extends Simulation {

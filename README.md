@@ -2,7 +2,7 @@
 [Download Project (zip)](../../archive/master.zip)
 
 <p align="center">
-    <a href="https://drive.google.com/open?id=0By-CMfnYF6bZUVFIZG5GWFF3YVU"><img src="docs/media/cfd_thumb.png" alt="vimeo"/></a>
+    <a href="https://drive.google.com/open?id=0By-CMfnYF6bZUVFIZG5GWFF3YVU"><img src="docs/media/cfd_thumb.png" alt="video"/></a>
 </p>
 
 The math and physics was adapted from http://physics.weber.edu/schroeder/fluids/. They have an online CFD program, the source code in multiple programming languages, and even a [pdf file](http://physics.weber.edu/schroeder/javacourse/LatticeBoltzmann.pdf) that goes into detail how it works so if you are interested in CFD I reccomend checking it out.

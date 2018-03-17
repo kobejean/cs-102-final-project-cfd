@@ -1,4 +1,12 @@
 # CS 102 Final Project CFD (Computational Fluid Dynamics)
+**1st Place Winner For The Spring 2017 CS102 Programming Conference Contest** 
+
+The CS102 Programming Conference Contest is a contest where CS102 students create and present their creative computer science projects which are voted by students. 
+
+Professor's Comment:
+
+*First place was Jean Flaherty, for his awesome simulation of graphics and fluid dynamics.  He showed programming skills and talents of graduate-level programmers, and nearly every student placed him in their top three.*
+
 [Download Project (zip)](../../archive/master.zip)
 
 <p align="center">

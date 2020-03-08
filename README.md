@@ -1,4 +1,6 @@
 # CS 102 Final Project CFD (Computational Fluid Dynamics)
+UNC CS 102 Spring 2017 Final Project Contest Winner
+
 [Download Project (zip)](../../archive/master.zip)
 
 <p align="center">
